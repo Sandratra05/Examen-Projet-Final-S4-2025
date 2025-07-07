@@ -1,7 +1,13 @@
 <?php
 function getDB() {
+
+    // $host = 'localhost';
+    // $dbname = 'db_s2_ETU003197';
+    // $username = 'root';
+    // $password = '';
+
     $host = 'localhost';
-    $dbname = 'tp_flight';
+    $dbname = 'db_s2_ETU003197';
     $username = 'root';
     $password = '';
 

@@ -1,3 +1,5 @@
+
+-- DROP DATABASE db_s2_ETU003197;
 -- CREATE DATABASE db_s2_ETU003197 CHARACTER SET utf8mb4;
 
 USE db_s2_ETU003197;
@@ -85,6 +87,7 @@ CREATE TABLE ef_pret (
    id_pret INT AUTO_INCREMENT,
    date_pret DATETIME,
    montant DECIMAL(15,2),
+   duree_remboursement INT,
    id_type_pret INT NOT NULL,
    id_compte INT NOT NULL,
    PRIMARY KEY(id_pret),
