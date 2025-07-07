@@ -2,9 +2,9 @@
 function getDB() {
 
     // $host = 'localhost';
-    // $dbname = 'db_s2_ETU003197';
-    // $username = 'root';
-    // $password = '';
+    // $dbname = 'db_s2_ETU003126';
+    // $username = 'ETU003126';
+    // $password = 'p562JiyT';
 
     $host = 'localhost';
     $dbname = 'db_s2_ETU003197';
