@@ -1,6 +1,6 @@
 
--- DROP DATABASE db_s2_ETU003197;
--- CREATE DATABASE db_s2_ETU003197 CHARACTER SET utf8mb4;
+DROP DATABASE db_s2_ETU003197;
+CREATE DATABASE db_s2_ETU003197 CHARACTER SET utf8mb4;
 
 USE db_s2_ETU003197;
 
@@ -35,6 +35,9 @@ CREATE TABLE ef_taux_pret (
    PRIMARY KEY(id_taux_pret),
    FOREIGN KEY(id_type_pret) REFERENCES ef_type_pret(id_type_pret)
 );
+
+ALTER TABLE ef_taux_pret
+ADD COLUMN taux_assurance DECIMAL(5,2);
 
 CREATE TABLE ef_mvt_type_pret (
    id_mvt_type_pret INT AUTO_INCREMENT,
@@ -125,3 +128,4 @@ CREATE TABLE ef_pret_etat (
    FOREIGN KEY(id_pret) REFERENCES ef_pret(id_pret),
    FOREIGN KEY(id_etat_pret) REFERENCES ef_etat_pret(id_etat_pret)
 );
+

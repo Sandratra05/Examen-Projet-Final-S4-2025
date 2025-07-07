@@ -19,6 +19,7 @@ class TypePretController {
             $max = $_POST['max'] ?? '';
             $taux = $_POST['taux'] ?? '';
             $date = $_POST['date'] ?? '';
+            $taux_assurance = $_POST['taux_assurance'] ?? '';
 
             // Validation des données
             $errors = [];
@@ -57,7 +58,7 @@ class TypePretController {
             }
 
             // Créer le type de prêt
-            $result = TypePretModel::create($nom, $min, $max, $taux, $date);
+            $result = TypePretModel::create($nom, $min, $max, $taux, $date , $taux_assurance);
 
             if ($result) {
                 // Succès
@@ -105,6 +106,7 @@ public static function update() {
         $min = $_POST['min'] ?? '';
         $max = $_POST['max'] ?? '';
         $taux = $_POST['taux'] ?? '';
+        $taux_assurance = $_POST['taux_assurance'] ?? '';
         $date = $_POST['date'] ?? '';
 
         $errors = [];
@@ -120,13 +122,13 @@ public static function update() {
             return;
         }
 
-        TypePretModel::updateParameters($id, $min, $max, $taux, $date);
+        TypePretModel::updateParameters($id, $min, $max, $taux, $date , $taux_assurance);
 
         echo json_encode(['success' => true, 'message' => 'Type de prêt mis à jour avec succès !']);
     } catch (Exception $e) {
         echo json_encode(['success' => false, 'errors' => ['Erreur système: ' . $e->getMessage()]]);
     }
 }
-// ...existing code...
+
     
 }
