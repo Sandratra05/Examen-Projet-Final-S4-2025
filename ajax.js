@@ -5,8 +5,18 @@ function ajax(method, url, data, callback) {
     xhr.open(method, apiBase + url, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            callback(JSON.parse(xhr.responseText));
+        if (xhr.readyState === 4) {
+            console.log("Réponse brute du serveur :", xhr.responseText); // debug ici
+            if (xhr.status === 200) {
+                try {
+                    const json = JSON.parse(xhr.responseText);
+                    callback(json);
+                } catch (err) {
+                    console.error("Erreur de parsing JSON :", err);
+                }
+            } else {
+                console.error("Erreur HTTP", xhr.status);
+            }
         }
     };
     xhr.send(data);
