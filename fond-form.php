@@ -54,6 +54,8 @@
     // document.addEventListener("DOMContentLoaded", function () {
         const form = document.getElementById("fond-form");
 
+        const messageContainer = document.getElementById("message-container");
+
         form.addEventListener("submit", function (e) {
             e.preventDefault();
 
@@ -61,12 +63,42 @@
             const id = document.getElementById("id").value;
             const data = `solde=${encodeURIComponent(solde)}&id=${encodeURIComponent(id)}`;
             
+            messageContainer.style.display = "none";
+            messageContainer.innerText = "";
+
             if (solde > 0) {
-                ajax("POST", "/fonds", data, () => {
-                    console.log("Insertion reussi");
+                ajax("POST", "/fonds", data, (responseText) => {
+                    console.log("Réponse brute du serveur :", responseText); 
+                    try {
+                        const response = JSON.parse(responseText);
+                        messageContainer.style.display = "block";
+                        if (response.success === true) {
+                            messageContainer.style.color = "green";
+                            messageContainer.innerText = "Fond inséré avec succès !";
+                            document.getElementById("solde").value = "";
+                        } else {
+                            messageContainer.style.color = "red";
+                            messageContainer.innerText = response.errors?.join(", ") || "Échec de l'insertion.";
+                        }
+                    } catch (e) {
+                        messageContainer.style.display = "block";
+                        messageContainer.style.color = "red";
+                        messageContainer.innerText = "Erreur inattendue côté serveur.";
+                    }
+
+                    // Effacer après 5 secondes
+                    setTimeout(() => {
+                        messageContainer.style.display = "none";
+                    }, 5000);
                 });
+            } else {
+                messageContainer.style.display = "block";
+                messageContainer.style.color = "red";
+                messageContainer.innerText = "Le solde doit être supérieur à 0.";
+                setTimeout(() => {
+                    messageContainer.style.display = "none";
+                }, 5000);
             }
-            
         });
     // });
     

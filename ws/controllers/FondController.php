@@ -30,7 +30,14 @@ class FondController {
     public static function create() {
         $data = Flight::request()->data;
         $id = FondModel::create($data);
-        Flight::json(['message' => 'Fond inséré ou mis à jour', 'id' => $id]);
+        try {
+            $data = Flight::request()->data;
+
+            $id = FondModel::create($data); // doit renvoyer un ID ou booléen
+            Flight::json(['success' => true, 'message' => 'Fond inséré', 'id' => $id]);
+        } catch (Exception $e) {
+            Flight::json(['success' => false, 'errors' => ['Erreur système : ' . $e->getMessage()]]);
+        }
     }
 
 

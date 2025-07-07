@@ -9,8 +9,8 @@ function ajax(method, url, data, callback) {
             console.log("Réponse brute du serveur :", xhr.responseText); // debug ici
             if (xhr.status === 200) {
                 try {
-                    const json = JSON.parse(xhr.responseText);
-                    callback(json);
+                    // const json = JSON.parse(xhr.responseText);
+                    callback(xhr.responseText);
                 } catch (err) {
                     console.error("Erreur de parsing JSON :", err);
                 }
