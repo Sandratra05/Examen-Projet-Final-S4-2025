@@ -82,15 +82,28 @@ class TypePretModel {
         $taux = $stmt->fetch(PDO::FETCH_ASSOC);
         
         // Construire le résultat
-        $result = [
-            'id_type_pret' => $type_pret['id_type_pret'],
-            'nom_type_pret' => $type_pret['nom_type_pret'],
-            'montant_min' => $mouvement ? $mouvement['montant_min'] : null,
-            'montant_max' => $mouvement ? $mouvement['montant_max'] : null,
-            'date_mvt' => $mouvement ? $mouvement['date_mvt'] : null,
-            'taux' => $taux ? $taux['taux'] : null,
-            'date_taux' => $taux ? $taux['date_taux'] : null
-        ];
+        if (empty($mouvement['date_mvt']) || empty($taux['date_taux'])) {
+    $result = [
+        'id_type_pret' => null,
+        'nom_type_pret' => null,
+        'montant_min' => null,
+        'montant_max' => null,
+        'date_mvt' => null,
+        'taux' => null,
+        'date_taux' => null
+    ];
+} else {
+    $result = [
+        'id_type_pret' => $type_pret['id_type_pret'],
+        'nom_type_pret' => $type_pret['nom_type_pret'],
+        'montant_min' => $mouvement ? $mouvement['montant_min'] : null,
+        'montant_max' => $mouvement ? $mouvement['montant_max'] : null,
+        'date_mvt' => $mouvement ? $mouvement['date_mvt'] : null,
+        'taux' => $taux ? $taux['taux'] : null,
+        'date_taux' => $taux ? $taux['date_taux'] : null
+    ];
+}
+
         
         return $result;
     }
