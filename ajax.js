@@ -1,4 +1,4 @@
-const apiBase = "http://localhost:80/ETU003197/t/Examen-Projet-Final-S4-2025/ws";
+const apiBase = "http://localhost:80/ETU003197/t/Examen-Projet-Finale-S4-2025/ws";
 
 function ajax(method, url, data, callback) {
     const xhr = new XMLHttpRequest();
