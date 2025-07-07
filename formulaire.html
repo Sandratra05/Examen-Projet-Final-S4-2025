@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Formulaire Société Générale</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+</head>
+<body class="form-container">
+  <!-- Top pink bar -->
+  <header class="form-header">
+    <div>mode démonstration</div>
+    <div>
+      <i class="fas fa-sign-out-alt"></i>
+    </div>
+  </header>
+
+  <!-- Navbar dark blue -->
+  <nav class="form-nav">
+    <!-- Left: Language dropdown -->
+    <div>
+      <button class="language-dropdown" type="button" aria-expanded="false" aria-haspopup="listbox">
+        <img alt="Drapeau français" src="https://flagcdn.com/w20/fr.png"/>
+        Français
+        <i class="fas fa-caret-down"></i>
+      </button>
+    </div>
+
+    <!-- Center: Logo -->
+    <div class="form-logo-section">
+      <div class="form-logo-text">
+        C'EST VOUS<br/>L'AVENIR
+      </div>
+      <img alt="Drapeau Société Générale Madagascar" class="form-logo-img" src="https://storage.googleapis.com/a1aa/image/3d69c84f-88fa-409e-730c-085f61a5d5ba.jpg"/>
+      <div class="form-bank-name">
+        SOCIETE GENERALE<br/>MADAGASIKARA
+      </div>
+    </div>
+
+    <!-- Right: Button -->
+    <div>
+      <button class="form-connect-btn">
+        DÉJÀ ABONNÉ CONNECT
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main content form container -->
+  <main class="form-main">
+    <form class="personal-info-form" aria-label="Informations personnelles">
+      <h2 class="form-title">Informations personnelles</h2>
+      <p class="form-subtitle">
+        Veuillez saisir vos informations pour continuer la<br/>souscription
+      </p>
+      <div class="form-divider"></div>
+      
+      <div class="form-inputs">
+        <input class="form-input" id="nom" name="nom" placeholder="Nom" type="text" autocomplete="off"/>
+        <input class="form-input" id="prenom" name="prenom" placeholder="Prénom" type="text" autocomplete="off"/>
+        <input class="form-input" id="numcompte" name="numcompte" placeholder="Numéro de compte" type="text" autocomplete="off"/>
+        
+        <div class="date-input-container">
+          <input class="date-input" id="datenaissance" name="datenaissance" placeholder="Date de naissance" type="date"/>
+          <i class="fas fa-calendar-alt date-icon" aria-hidden="true"></i>
+        </div>
+        
+        <input class="form-input" id="numtel" name="numtel" placeholder="Numéro de téléphone" type="tel" autocomplete="off"/>
+        <input class="form-input" id="email" name="email" placeholder="Adresse email" type="email" autocomplete="off"/>
+        <input class="form-input" id="pays" name="pays" placeholder="Pays de résidence" type="text" autocomplete="off"/>
+      </div>
+
+      <label class="consent-label" for="consent">
+        <input class="consent-checkbox" id="consent" name="consent" type="checkbox"/>
+        <span>
+          Acceptez-vous que ces données soient transmises de manière électronique pour permettre l'étude de votre demande?
+        </span>
+      </label>
+
+      <div class="form-actions">
+        <button class="form-submit-btn" type="submit">Continuer</button>
+        <a class="form-cancel-link" href="#">Annuler</a>
+      </div>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="form-footer">
+    <div class="form-footer-logo">
+      <img alt="Drapeau Société Générale Madagascar" src="https://storage.googleapis.com/a1aa/image/3d69c84f-88fa-409e-730c-085f61a5d5ba.jpg"/>
+    </div>
+    
+    <nav class="form-footer-nav">
+      <a href="#">À PROPOS</a>
+      <a href="#">IMPLANTATIONS</a>
+      <a href="#">RÉCLAMATION</a>
+      <a href="#">MENTIONS LÉGALES</a>
+      <a href="#">CGU</a>
+      <a href="#">CRÉDITS</a>
+    </nav>
+    
+    <div class="form-footer-right">
+      <a href="#">AUTRES SITES SOCIÉTÉ GÉNÉRALE</a>
+      <span>3.24.89</span>
+    </div>
+  </footer>
+</body>
+</html>
