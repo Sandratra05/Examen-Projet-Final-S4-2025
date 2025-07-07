@@ -57,14 +57,7 @@ class TypePretController {
             }
 
             // Créer le type de prêt
-            $typePretModel = new TypePretModel();
-            $result = $typePretModel->create([
-                'nom' => $nom,
-                'montant_min' => $min,
-                'montant_max' => $max,
-                'taux' => $taux,
-                'date_creation' => $date
-            ]);
+            $result = TypePretModel::create($nom, $min, $max, $taux, $date);
 
             if ($result) {
                 // Succès
