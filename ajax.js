@@ -30,7 +30,7 @@ function ajax(method, url, data, callback) {
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
             console.log("Status:", xhr.status);
-            console.log("Réponse brute du serveur :", xhr.responseText);
+            console.log("Réponse brute du serveur (ajax) :", xhr.responseText);
             
             if (xhr.status === 200) {
                 try {

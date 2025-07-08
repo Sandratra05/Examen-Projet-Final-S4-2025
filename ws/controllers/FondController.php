@@ -28,8 +28,6 @@ class FondController {
     // }
 
     public static function create() {
-        $data = Flight::request()->data;
-        $id = FondModel::create($data);
         try {
             $data = Flight::request()->data;
 
