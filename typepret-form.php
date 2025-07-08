@@ -4,7 +4,7 @@ include 'header.php';
 $id = $_GET['id'] ?? null;
 $editData = null;
 if ($id) {
-    require_once __DIR__ . '/ws/models/typePretModel.php';
+    require_once __DIR__ . '/ws/models/TypePretModel.php';
     // On prend la date courante pour pré-remplir avec les valeurs actuelles
     $editData = TypePretModel::read($id, date('Y-m-d H:i:s'));
 }
