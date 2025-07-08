@@ -135,3 +135,6 @@ CREATE TABLE ef_remboursement (
    PRIMARY KEY(id_remboursement),
    FOREIGN KEY(id_pret) REFERENCES ef_pret(id_pret)
 );
+
+ALTER TABLE ef_taux_pret
+ADD COLUMN taux_assurance DECIMAL(5,2);

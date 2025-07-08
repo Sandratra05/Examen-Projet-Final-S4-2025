@@ -31,7 +31,7 @@
   <?php include 'header.php'; ?>
   <main class="form-main">
     <form class="personal-info-form" id="form-pret">
-      <h2 class="form-title">Effectuer un demande de pret</h2>
+      <h2 class="form-title">Effectuer une demande de pret</h2>
       <p class="form-subtitle">
         Veuillez remplir les informations ci-dessous
       </p>
