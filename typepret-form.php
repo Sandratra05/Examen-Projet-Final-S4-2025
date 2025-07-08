@@ -54,6 +54,7 @@ if ($id) {
     </div>
   </form>
 </main>
+<script src="url.js"></script>
 
 <script src="ajax.js"></script>
 <script>

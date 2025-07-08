@@ -33,6 +33,7 @@
     <div id="message-container" style="display:none; margin-top: 10px;"></div>
   </section>
 </main>
+<script src="url.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="ajax.js"></script>

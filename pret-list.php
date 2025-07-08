@@ -139,9 +139,10 @@
             </div>
         </section>
     </main>
+    <script src="url.js"></script>
 
     <script>
-        const apiBase = "http://localhost/ETU003197/t/Examen-Projet-Finale-S4-2025/ws";
+        // const apiBase = "http://localhost/ETU003197/t/Examen-Projet-Finale-S4-2025/ws";
 
         function ajax(method, url, data, callback) {
             const xhr = new XMLHttpRequest();

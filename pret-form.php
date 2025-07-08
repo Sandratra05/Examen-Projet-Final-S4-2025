@@ -11,7 +11,7 @@
       padding: 10px;
       border-radius: 5px;
       display: none;
-    } 
+    }
 
     #message-container.succes {
       margin-bottom: 15px;
@@ -52,13 +52,13 @@
 
 
 
-        <input type="number" class="form-input" id="duree" name="duree" min="1" required placeholder="Durée de remboursement (en mois) *" required/>
+        <input type="number" class="form-input" id="duree" name="duree" min="1" required placeholder="Durée de remboursement (en mois) *" required />
 
 
 
         <input type="number" class="form-input" id="montant" name="montant" step="0.01" placeholder="Montant du prêt *" required />
 
-        <input type="number" class="form-input" name="delai" id="delai" placeholder="Délai de remboursement (en mois)"> 
+        <input type="number" class="form-input" name="delai" id="delai" placeholder="Délai de remboursement (en mois)">
       </div>
       <p style="font-size: 12px; margin-top:10px; color:#e72e4b;">(* champ obligatoire)</p>
       <div class="form-actions">
@@ -68,10 +68,9 @@
 
 
   </main>
-  
+  <script src="url.js"></script>
   <script src="ajax.js"></script>
   <script>
-
     function chargerTypePret() {
       ajax("GET", "/list-type-pret", null, (data) => {
         const select = document.getElementById("type_pret");
@@ -106,7 +105,7 @@
 
       ajax("POST", "/prets/create", data, (response) => {
         console.log("data = " + data + "-------");
-        
+
         if (response.success) {
           afficherMessage(response.message, true);
           document.getElementById("form-pret").reset();
