@@ -260,6 +260,47 @@ class PretModel
         return true;
     }
 
-   
+    public static function getPretCompletData($idPret)
+    {
+        $sql = "
+            SELECT 
+                p.id_pret,
+                p.montant,
+                p.duree_remboursement,
+                p.date_pret,
+                p.id_type_pret,
+                c.id_compte,
+                cl.nom_client,
+                cl.coordonnees,
+                tp.nom_type_pret,
+                t.taux,
+                COALESCE(t.taux_assurance, 0) as taux_assurance
+            FROM ef_pret p
+            JOIN ef_compte c ON p.id_compte = c.id_compte
+            JOIN ef_client cl ON c.id_client = cl.id_client
+            JOIN ef_type_pret tp ON p.id_type_pret = tp.id_type_pret
+            LEFT JOIN ef_taux_pret t ON p.id_type_pret = t.id_type_pret
+            WHERE p.id_pret = ?
+            ORDER BY t.date_taux DESC
+            LIMIT 1
+        ";
+        
+        try {
+            $stmt = getDB()->prepare($sql);
+            $stmt->execute([$idPret]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$result) {
+                error_log("Aucun prêt trouvé avec l'ID: " . $idPret);
+                return false;
+            }
+            
+            return $result;
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la récupération des données du prêt: " . $e->getMessage());
+            return false;
+        }
+    }
+
 
 }
