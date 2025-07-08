@@ -5,7 +5,7 @@ require_once __DIR__ . '/RemboursementModel.php';
 
 class PretModel
 {
-    public static function createPret($idCompte, $idTypePret, $montant, $dureeRemboursement)
+    public static function createPret($idCompte, $idTypePret, $montant, $dureeRemboursement, $delai)
     {
         $db = getDB();
 
@@ -16,8 +16,9 @@ class PretModel
                 montant,
                 duree_remboursement,
                 id_type_pret,
-                id_compte
-            ) VALUES (NOW(),?,?,?,?)
+                id_compte,
+                delai_remboursement
+            ) VALUES (NOW(),?,?,?,?,?)
         ";
 
 
@@ -26,7 +27,8 @@ class PretModel
             $montant,
             $dureeRemboursement,
             $idTypePret,
-            $idCompte
+            $idCompte,
+            $delai
         ]);
 
         return $db->lastInsertId();
@@ -188,7 +190,7 @@ class PretModel
     {
         // 1. Récupérer les données complètes du prêt avec son taux
         $sqlPret = "SELECT p.montant, p.duree_remboursement, p.date_pret,
-                       t.taux, tp.nom_type_pret, t.taux_assurance
+                       t.taux, tp.nom_type_pret, t.taux_assurance, p.delai_remboursement
                 FROM ef_pret p
                 JOIN ef_type_pret tp ON p.id_type_pret = tp.id_type_pret
                 JOIN ef_taux_pret t ON p.id_type_pret = t.id_type_pret
@@ -230,7 +232,13 @@ class PretModel
 
         // 3. Génération des échéances
         $capitalRestant = $montant;
-        $date = new DateTime($pretData['date_pret']); // Date de départ = date du prêt
+
+        $date = null;
+        if ($pretData['delai_remboursement'] != null) {
+            $date = new DateTime($pretData['delai_remboursement']);
+        } else {
+            $date = new DateTime($pretData['date_pret']);
+        }
 
         for ($i = 1; $i <= $duree; $i++) {
             // Calcul des composants

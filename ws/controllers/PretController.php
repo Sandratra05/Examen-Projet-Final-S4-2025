@@ -25,14 +25,23 @@ class PretController
         $idTypePret = $_POST['idTypePret'];
         $montant = $_POST['montant'];
         $dureeRemboursement = $_POST['dureeRemboursement'];
+        $delai = $_POST['delai'];
 
         if (!$idCompte || !$idTypePret || !$montant || !$dureeRemboursement) {
             Flight::json(['success' => false, 'message' => 'Paramètres manquants.'], 400);
             return;
         }
 
+        if (is_numeric($delai) && (int)$delai > 0) {
+            $date = new DateTime();
+            $date->modify('+' . (int)$delai . ' months');
+            $delai = $date->format('Y-m-d');
+        } else {
+            $delai = null;
+        }
+
         try {
-            $id = PretModel::createPret($idCompte, $idTypePret, $montant, $dureeRemboursement);
+            $id = PretModel::createPret($idCompte, $idTypePret, $montant, $dureeRemboursement, $delai);
             PretEtatModel::setEtatPret($id, 1, date('Y-m-d H:i:s'));
             Flight::json(['success' => true, 'message' => 'Prêt créé avec succès', 'id' => $id]);
         } catch (Exception $e) {

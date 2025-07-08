@@ -96,7 +96,7 @@ CREATE TABLE ef_pret (
    PRIMARY KEY(id_pret),
    FOREIGN KEY(id_type_pret) REFERENCES ef_type_pret(id_type_pret),
    FOREIGN KEY(id_compte) REFERENCES ef_compte(id_compte)
-);_
+);
 
 CREATE TABLE ef_mvt_solde (
    id_mvt_solde INT AUTO_INCREMENT,
@@ -128,6 +128,7 @@ CREATE TABLE ef_pret_etat (
    FOREIGN KEY(id_pret) REFERENCES ef_pret(id_pret),
    FOREIGN KEY(id_etat_pret) REFERENCES ef_etat_pret(id_etat_pret)
 );
+
 CREATE TABLE ef_remboursement (
    id_remboursement INT AUTO_INCREMENT,
    id_pret INT NOT NULL,
@@ -141,3 +142,7 @@ CREATE TABLE ef_remboursement (
 
 ALTER TABLE ef_taux_pret
 ADD COLUMN taux_assurance DECIMAL(5,2);
+
+
+ALTER TABLE ef_pret
+ADD COLUMN delai_remboursement DATE;
