@@ -164,11 +164,33 @@ class PretModel
         }
     }
 
+    public static function getDernierEtatPret(int $idPret) {
+        $db = getDB();
+        $sql = "
+            SELECT epe.id_etat_pret, ep.nom_etat
+            FROM ef_pret_etat epe
+            JOIN ef_etat_pret ep ON epe.id_etat_pret = ep.id_etat_pret
+            WHERE epe.id_pret = ?
+            ORDER BY epe.date_pret_etat DESC
+            LIMIT 1
+        ";
+    
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$idPret]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ?: null;
+        } catch (PDOException $e) {
+            error_log("Erreur getDernierEtatPret ($idPret): " . $e->getMessage());
+            return null;
+        }
+    }
+
     public static function genererPlanRemboursement(int $idPret): bool
     {
         // 1. Récupérer les données complètes du prêt avec son taux
         $sqlPret = "SELECT p.montant, p.duree_remboursement, p.date_pret,
-                       t.taux, tp.nom_type_pret, p.delai_remboursement
+                       t.taux, tp.nom_type_pret, t.taux_assurance, p.delai_remboursement
                 FROM ef_pret p
                 JOIN ef_type_pret tp ON p.id_type_pret = tp.id_type_pret
                 JOIN ef_taux_pret t ON p.id_type_pret = t.id_type_pret
@@ -185,11 +207,19 @@ class PretModel
             return false;
         }
 
+        $etat_pret = PretModel::getDernierEtatPret($idPret);
+        if ($etat_pret['id_etat_pret'] != 1) {
+            error_log("Le pret n'est pas en etat d'etre valide");
+            return false;
+        }
+
         // 2. Calcul de l'annuité constante
         $montant = (float)$pretData['montant'];
         $duree = (int)$pretData['duree_remboursement'];
         $tauxAnnuel = (float)$pretData['taux'];
         $tauxMensuel = $tauxAnnuel / 100 / 12;
+
+        $montantAssurrance = ((float)$pretData['taux_assurance']/100/12)* $montant;
 
         // Cas particulier pour les prêts sans intérêts
         if ($tauxMensuel == 0) {
@@ -224,7 +254,7 @@ class PretModel
             $success = RemboursementModel::insererRemboursement(
                 $idPret,
                 $dateRemboursement,
-                round($annuite, 2),
+                round($annuite + $montantAssurrance, 2),
                 round($amortissement, 2),
                 round($interet, 2)
             );
@@ -237,4 +267,48 @@ class PretModel
 
         return true;
     }
+
+    public static function getPretCompletData($idPret)
+    {
+        $sql = "
+            SELECT 
+                p.id_pret,
+                p.montant,
+                p.duree_remboursement,
+                p.date_pret,
+                p.id_type_pret,
+                c.id_compte,
+                cl.nom_client,
+                cl.coordonnees,
+                tp.nom_type_pret,
+                t.taux,
+                COALESCE(t.taux_assurance, 0) as taux_assurance
+            FROM ef_pret p
+            JOIN ef_compte c ON p.id_compte = c.id_compte
+            JOIN ef_client cl ON c.id_client = cl.id_client
+            JOIN ef_type_pret tp ON p.id_type_pret = tp.id_type_pret
+            LEFT JOIN ef_taux_pret t ON p.id_type_pret = t.id_type_pret
+            WHERE p.id_pret = ?
+            ORDER BY t.date_taux DESC
+            LIMIT 1
+        ";
+        
+        try {
+            $stmt = getDB()->prepare($sql);
+            $stmt->execute([$idPret]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$result) {
+                error_log("Aucun prêt trouvé avec l'ID: " . $idPret);
+                return false;
+            }
+            
+            return $result;
+        } catch (PDOException $e) {
+            error_log("Erreur lors de la récupération des données du prêt: " . $e->getMessage());
+            return false;
+        }
+    }
+
+
 }
