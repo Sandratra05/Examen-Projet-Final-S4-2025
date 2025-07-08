@@ -34,34 +34,9 @@ class InteretModel {
                     ) pe2 ON pe1.id_pret = pe2.id_pret AND pe1.date_pret_etat = pe2.max_date
                     WHERE pe1.id_etat_pret = 2
                 ) pe ON pe.id_pret = p.id_pret
-                GROUP BY annee, mois
-                ORDER BY annee ASC, mois ASC
-            ";
-            // $sql = "
-            //     SELECT 
-            //         MONTH(date) as mois,
-            //         YEAR(date) as annee,
-            //         CASE MONTH(date)
-            //             WHEN 1 THEN 'Janvier'
-            //             WHEN 2 THEN 'Février'
-            //             WHEN 3 THEN 'Mars'
-            //             WHEN 4 THEN 'Avril'
-            //             WHEN 5 THEN 'Mai'
-            //             WHEN 6 THEN 'Juin'
-            //             WHEN 7 THEN 'Juillet'
-            //             WHEN 8 THEN 'Août'
-            //             WHEN 9 THEN 'Septembre'
-            //             WHEN 10 THEN 'Octobre'
-            //             WHEN 11 THEN 'Novembre'
-            //             WHEN 12 THEN 'Décembre'
-            //         END as nom_mois,
-            //         SUM(interet) as total_interet,
-            //         SUM(montant_payer) as total_montant_paye,
-            //         SUM(ammortisement) as total_amortissement,
-            //         COUNT(*) as nombre_remboursements
-            //     FROM remboursements r
-            //     WHERE 1=1
-            // ";
+                 WHERE 1=1
+                ";
+
             
             $params = [];
             
