@@ -1,6 +1,6 @@
 
--- DROP DATABASE db_s2_ETU003197;
--- CREATE DATABASE db_s2_ETU003197 CHARACTER SET utf8mb4;
+DROP DATABASE db_s2_ETU003197;
+CREATE DATABASE db_s2_ETU003197 CHARACTER SET utf8mb4;
 
 USE db_s2_ETU003197;
 
@@ -93,7 +93,7 @@ CREATE TABLE ef_pret (
    PRIMARY KEY(id_pret),
    FOREIGN KEY(id_type_pret) REFERENCES ef_type_pret(id_type_pret),
    FOREIGN KEY(id_compte) REFERENCES ef_compte(id_compte)
-);_
+);
 
 CREATE TABLE ef_mvt_solde (
    id_mvt_solde INT AUTO_INCREMENT,

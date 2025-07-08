@@ -1,4 +1,16 @@
 
+-- ef_type_transaction (virement, injection de capitale, pret)
+INSERT INTO ef_type_transaction (nom_type_transaction) VALUES
+('virement'),
+('injection de capitale'),
+('pret');
+
+-- ef_type_mvt (entree, sortie)
+INSERT INTO ef_type_mvt (nom_type_mvt) VALUES
+('entree'),
+('sortie');
+
+
 INSERT INTO ef_type_pret (nom_type_pret) VALUES 
 ('Prêt personnel'),
 ('Prêt immobilier'),
@@ -44,11 +56,11 @@ INSERT INTO ef_etat_pret (nom_etat) VALUES
 ('Clôturé');         -- Prêt clôturé (termes respectés)
 
 
-INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret) VALUES
+INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret,taux_assurance) VALUES
 -- Prêts personnels (type 1) - Taux élevés
-(18.50, '2023-01-01 00:00:00', 1),
-(17.75, '2023-04-15 00:00:00', 1),
-(16.90, '2023-07-20 00:00:00', 1),
+(18.50, '2023-01-01 00:00:00', 1,3),
+(17.75, '2023-04-15 00:00:00', 1,3),
+(16.90, '2023-07-20 00:00:00', 1,3),
 
 -- Crédits renouvelables (type 2) - Taux très élevés
 (12.00, '2023-01-10 00:00:00', 2);
