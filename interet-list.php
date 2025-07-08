@@ -51,8 +51,6 @@
             <th style="text-align: right;">Total Intérêts</th>
             <th style="text-align: right;">Montant Total Payé</th>
             <th style="text-align: right;">Amortissement</th>
-            <!-- <th>Nb Remboursements</th> -->
-            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -92,7 +90,7 @@ function fetchInteretsParMois(dateDebut = null, dateFin = null) {
     if (res.success && res.data && res.data.length > 0) {
       // Afficher le résumé
       summaryContainer.style.display = "block";
-      totalInterets.textContent = "Total des Intérêts: " + formatNumber(res.total_interets) + " €";
+      totalInterets.textContent = "Total des Intérêts: " + formatNumber(res.total_interets) + " Ar";
       
       // Afficher la période si définie
       if (dateDebut || dateFin) {
@@ -110,15 +108,9 @@ function fetchInteretsParMois(dateDebut = null, dateFin = null) {
         tr.innerHTML = `
           <td>${row.nom_mois}</td>
           <td>${row.annee}</td>
-          <td style="text-align:right;">${formatNumber(row.total_interet)} €</td>
-          <td style="text-align:right;">${formatNumber(row.total_montant_paye)} €</td>
-          <td style="text-align:right;">${formatNumber(row.total_amortissement)} €</td>
-          <td>
-            <a href="details_mois.php?annee=${row.annee}&mois=${row.mois}" 
-               title="Voir détails" style="color:#007bff; text-decoration:none;">
-              Voir détails
-            </a>
-          </td>
+          <td style="text-align:right;">${formatNumber(row.total_interet)} Ar</td>
+          <td style="text-align:right;">${formatNumber(row.total_montant_paye)} Ar</td>
+          <td style="text-align:right;">${formatNumber(row.total_amortissement)} Ar</td>
         `;
         tableBody.appendChild(tr);
       });
