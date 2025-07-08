@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Transactions</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <!-- Top pink bar -->
+  <div class="demo-bar">
+    MODE DÉMONSTRATION
+  </div>
+  
+  <!-- Second nav bar -->
+  <div class="nav-bar">
+    <div class="nav-item">
+      <i class="fas fa-map-marker-alt"></i>
+      <span>TROUVER UNE AGENCE OU UN DAB</span>
+    </div>
+    <div class="nav-item">
+      <i class="fas fa-comment-alt"></i>
+      <span>QUESTIONS FRÉQUENTES</span>
+    </div>
+    <div class="nav-item">
+      <i class="fas fa-percentage"></i>
+      <span>TAUX DE CHANGE</span>
+    </div>
+    <div class="nav-item">
+      <i class="fas fa-envelope"></i>
+      <span>NOUS CONTACTER</span>
+    </div>
+  </div>
+  
+  <!-- Third nav bar -->
+  <div class="main-nav">
+    <div class="logo-section">
+      <div class="logo-text">
+        C'EST VOUS<br/>L'AVENIR
+      </div>
+      <img alt="Drapeau rouge et blanc Société Générale Madagasikara" class="flag-img" height="24" src="https://storage.googleapis.com/a1aa/image/341275a7-0051-4664-a934-f337fabd7f35.jpg" width="40"/>
+      <div class="bank-name">
+        SOCIETE GENERALE<br/>MADAGASIKARA
+      </div>
+    </div>
+    <nav class="main-nav-links">
+      <button class="nav-link">
+        MES COMPTES
+        <i class="fas fa-chevron-down"></i>
+      </button>
+      <button class="nav-link active">
+        TRANSACTIONS
+      </button>
+      <button class="nav-link">
+        SERVICES EN LIGNE
+        <i class="fas fa-chevron-down"></i>
+      </button>
+    </nav>
+  </div>
+  
+  <!-- Virement button -->
+  <div class="virement-button-container">
+    <button class="virement-btn" type="button">
+      <i class="fas fa-paper-plane"></i>
+      Virement
+    </button>
+  </div>
+  
+  <!-- Transactions tab -->
+  <div class="transactions-tab">
+    TRANSACTIONS
+    <div class="tab-underline"></div>
+  </div>
+  
+  <!-- Main content container -->
+  <main class="main-content">
+    <!-- Left main content -->
+    <section class="left-content">
+      <h2 class="section-title">
+        Virements et transferts
+      </h2>
+      
+      <!-- Cards container -->
+      <div class="cards-container">
+        <!-- Card 1 -->
+        <div class="account-card featured">
+          <div class="card-header">
+            <div class="card-info">
+              <img alt="Gauge icon with red, yellow, green arcs and a needle pointing left" class="card-icon" height="48" src="https://storage.googleapis.com/a1aa/image/4251386d-84b0-4bbc-c03a-ef151e6170a2.jpg" width="48"/>
+              <div class="account-details">
+                <div class="account-name">
+                  ALIAS 88
+                  <span class="account-type">COURANT</span>
+                </div>
+                <div class="account-number">
+                  00008 01001 01073656710 09
+                </div>
+                <div class="account-branch">
+                  AGENCE PRINCIPALE
+                </div>
+              </div>
+            </div>
+            <button class="options-btn">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+          <div class="card-balance">
+            <div class="balance-item">
+              <div class="balance-label">SOLDE ACTUEL</div>
+              <div class="balance-amount">12 780.00 MGA</div>
+            </div>
+            <div class="balance-item">
+              <div class="balance-label">À VENIR</div>
+              <div class="balance-amount">90 710.00 MGA</div>
+            </div>
+            <div class="balance-item">
+              <div class="balance-label">DÉCOUVERT</div>
+              <div class="balance-amount">15 000.00 MGA</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="account-card">
+          <div class="card-header">
+            <div class="card-info">
+              <img alt="Briefcase icon in dark blue" class="card-icon-small" height="24" src="https://storage.googleapis.com/a1aa/image/2ebe0154-8d30-4bd6-e3d0-3db47388e696.jpg" width="24"/>
+              <div class="account-details">
+                <div class="account-name">
+                  ALIAS 6
+                  <span class="account-type">COURANT</span>
+                </div>
+                <div class="account-number">
+                  0008 01001 01073600601 09
+                </div>
+                <div class="account-branch">
+                  AGENCE PRINCIPALE
+                </div>
+              </div>
+            </div>
+            <button class="options-btn">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+          <div class="card-balance">
+            <div class="balance-item">
+              <div class="balance-label">SOLDE ACTUEL</div>
+              <div class="balance-amount">92 780.00 MGA</div>
+            </div>
+            <div class="balance-item">
+              <div class="balance-label">À VENIR</div>
+              <div class="balance-amount">90 710.00 MGA</div>
+            </div>
+            <div class="balance-item">
+              <div class="balance-label">DÉCOUVERT</div>
+              <div class="balance-amount">15 000.00 MGA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- History and beneficiaries container -->
+      <div class="content-grid">
+        <!-- History -->
+        <section class="history-section">
+          <h3 class="subsection-title">
+            Historique des virements
+          </h3>
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Nature de la facture</th>
+                <th>Montant</th>
+                <th>Statut</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>04-12-2019</td>
+                <td>VRT TR VIREMENT TRANSFERT TO ALBAN ANN</td>
+                <td class="amount">-100 000.00 MGA</td>
+                <td class="status pending">En<br/>cours</td>
+                <td class="download-btn"><i class="fas fa-download"></i></td>
+              </tr>
+              <tr>
+                <td>04-12-2019</td>
+                <td>VRT TR VIREMENT EN FAVEUR DE KEVIN TONTO</td>
+                <td class="amount">-300 000.00 MGA</td>
+                <td class="status completed">Effectué</td>
+                <td class="download-btn"><i class="fas fa-download"></i></td>
+              </tr>
+              <tr>
+                <td>29-01-2019</td>
+                <td>RG PREMIUM 2811 2012</td>
+                <td class="amount">-5 000.00 MGA</td>
+                <td class="status pending">En<br/>cours</td>
+                <td class="download-btn"><i class="fas fa-download"></i></td>
+              </tr>
+              <tr>
+                <td>11-11-2019</td>
+                <td>RG PREMIUM 2811 2012</td>
+                <td class="amount">-5 000.00 MGA</td>
+                <td class="status pending">En<br/>cours</td>
+                <td class="download-btn"><i class="fas fa-download"></i></td>
+              </tr>
+              <tr>
+                <td>22-11-2019</td>
+                <td>RG PREMIUM 2811 2012</td>
+                <td class="amount">-5 000.00 MGA</td>
+                <td class="status pending">En<br/>cours</td>
+                <td class="download-btn"><i class="fas fa-download"></i></td>
+              </tr>
+              <tr>
+                <td>29-11-2017</td>
+                <td>RG PREMIUM 2811 2012</td>
+                <td class="amount">-5 000.00 MGA</td>
+                <td class="status cancelled">Annulé</td>
+                <td class="download-btn"><i class="fas fa-download"></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <!-- Beneficiaries -->
+        <section class="beneficiaries-section">
+          <div class="beneficiary-group">
+            <h3 class="subsection-title">
+              Bénéficiaires déclarés
+            </h3>
+            <div class="beneficiary-category">
+              Mes comptes
+            </div>
+            <div class="beneficiary-item">
+              <div class="beneficiary-info">
+                <div class="beneficiary-name">KARAM VIDI</div>
+                <div class="beneficiary-rib">RIB 01001 01073236710667975411</div>
+              </div>
+              <button class="send-btn">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="beneficiary-group">
+            <div class="beneficiary-category">
+              Bénéficiaires tiers
+            </div>
+            <div class="beneficiary-item">
+              <div class="beneficiary-info">
+                <div class="beneficiary-name">MAMADOU KEITA</div>
+                <div class="beneficiary-rib">RIB 01073236710667977711</div>
+              </div>
+              <div class="beneficiary-actions">
+                <button class="send-btn">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+                <button class="delete-btn">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="beneficiary-item">
+              <div class="beneficiary-info">
+                <div class="beneficiary-name">MAMADOU ABOUBARKAR</div>
+                <div class="beneficiary-rib">
+                  RIB : 01073656120667034789<br/>
+                  NOM DE BANQUE: ECO BANK
+                </div>
+              </div>
+              <div class="beneficiary-actions">
+                <button class="send-btn">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+                <button class="delete-btn">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="beneficiary-item">
+              <div class="beneficiary-info">
+                <div class="beneficiary-name">SAMUEL PRENOM</div>
+                <div class="beneficiary-rib">
+                  RIB : 01073656710669999999<br/>
+                  NOM DE BANQUE: ECO BANK
+                </div>
+              </div>
+              <div class="beneficiary-actions">
+                <button class="send-btn">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+                <button class="delete-btn">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="beneficiary-item">
+              <div class="beneficiary-info">
+                <div class="beneficiary-name">BOUBAKAR</div>
+                <div class="beneficiary-rib">
+                  RIB : 01073656710<br/>
+                  NOM DE BANQUE: ECO BANK
+                </div>
+              </div>
+              <div class="beneficiary-actions">
+                <button class="send-btn">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+                <button class="delete-btn">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+    
+    <!-- Right side buttons -->
+    <section class="right-buttons">
+      <button class="primary-btn" type="button">
+        <i class="fas fa-paper-plane"></i>
+        Effectuer un virement
+      </button>
+      <button class="secondary-btn" type="button">
+        <i class="fas fa-user-friends"></i>
+        Ajouter un bénéficiaire
+      </button>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <img alt="Drapeau rouge et blanc Société Générale" height="14" src="https://storage.googleapis.com/a1aa/image/1580700d-c1fc-46e0-a6cf-f86cffb5a797.jpg" width="20"/>
+    </div>
+    <nav class="footer-nav">
+      <a href="#">À PROPOS</a>
+      <a href="#">IMPLANTATIONS</a>
+      <a href="#">RÉCLAMATION</a>
+      <a href="#">MENTIONS LÉGALES</a>
+      <a href="#">CGU</a>
+      <a href="#">CRÉDITS</a>
+      <a href="#">
+        AUTRES SITES SOCIÉTÉ GÉNÉRALE
+        <i class="fas fa-chevron-down"></i>
+      </a>
+    </nav>
+    <div class="footer-version">
+      3.24.89
+    </div>
+  </footer>
+</body>
+</html>

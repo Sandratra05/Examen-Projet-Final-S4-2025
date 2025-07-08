@@ -1,3 +1,4 @@
+
 INSERT INTO ef_type_pret (nom_type_pret) VALUES 
 ('Prêt personnel'),
 ('Prêt immobilier'),
@@ -51,3 +52,4 @@ INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret) VALUES
 
 -- Crédits renouvelables (type 2) - Taux très élevés
 (12.00, '2023-01-10 00:00:00', 2);
+
