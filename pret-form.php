@@ -6,19 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Demande de prêt</title>
   <style>
-    #message {
+    #message-container {
       margin-top: 15px;
       padding: 10px;
       border-radius: 5px;
       display: none;
-    }
+    } 
 
-    #message.succes {
+    #message-container.succes {
+      margin-bottom: 15px;
       background-color: #d4edda;
       color: #155724;
     }
 
-    #message.erreur {
+    #message-container.erreur {
+      margin-bottom: 15px;
       background-color: #f8d7da;
       color: #721c24;
     }
@@ -26,38 +28,44 @@
 </head>
 
 <body>
-  <section class="formulaire-pret">
-    <h2>Demande de prêt</h2>
-    <form id="form-pret">
-      <div>
-        <label for="numero_compte">Numéro de compte :</label>
-        <input type="number" id="numero_compte" name="numero_compte" required />
-      </div>
+  <?php include 'header.php'; ?>
+  <main class="form-main">
+    <form class="personal-info-form" id="form-pret">
+      <h2 class="form-title">Effectuer un demande de pret</h2>
+      <p class="form-subtitle">
+        Veuillez remplir les informations ci-dessous
+      </p>
+      <div class="form-divider"></div>
 
-      <div>
-        <label for="type_pret">Type de prêt :</label>
-        <select id="type_pret" name="type_pret" required>
-          <option value="">-- Sélectionnez --</option>
+      <div id="message-container" style="display: none;"></div>
+
+      <div class="form-inputs">
+
+
+        <input class="form-input" type="number" id="numero_compte" name="numero_compte" placeholder="Numéro de compte" required />
+
+
+
+        <select id="type_pret" class="form-input" name="type_pret" required>
+          <option value="">Type de prêt</option>
         </select>
+
+
+
+        <input type="number" class="form-input" id="duree" name="duree" min="1" required placeholder="Durée de remboursement (en mois)" />
+
+
+
+        <input type="number" class="form-input" id="montant" name="montant" step="0.01" placeholder="Montant du prêt" required />
       </div>
 
-      <div>
-        <label for="duree">Durée de remboursement (en mois) :</label>
-        <input type="number" id="duree" name="duree" min="1" required />
-      </div>
-
-      <div>
-        <label for="montant">Montant du prêt :</label>
-        <input type="number" id="montant" name="montant" step="0.01" required />
-      </div>
-
-      <div>
-        <button type="submit">Soumettre la demande</button>
+      <div class="form-actions">
+        <button class="form-submit-btn" type="submit">Soumettre la demande</button>
       </div>
     </form>
 
-    <div id="message"></div>
-  </section>
+
+  </main>
 
   <script>
     const apiBase = "http://localhost/ETU003197/t/Examen-Projet-Finale-S4-2025/ws";
@@ -72,7 +80,9 @@
           try {
             response = JSON.parse(xhr.responseText);
           } catch (e) {
-            response = { message: "Réponse invalide du serveur." };
+            response = {
+              message: "Réponse invalide du serveur."
+            };
           }
           callback(response, xhr.status);
         }
@@ -93,7 +103,7 @@
     }
 
     function afficherMessage(message, isSuccess) {
-      const msgDiv = document.getElementById("message");
+      const msgDiv = document.getElementById("message-container");
       msgDiv.textContent = message;
       msgDiv.className = isSuccess ? "succes" : "erreur";
       msgDiv.style.display = "block";
@@ -113,10 +123,10 @@
 
       ajax("POST", "/prets/create", data, (response) => {
         if (response.success) {
-          afficherMessage("✅ " + response.message, true);
+          afficherMessage(response.message, true);
           document.getElementById("form-pret").reset();
         } else {
-          afficherMessage("❌ " + (response.message || "Erreur inconnue"), false);
+          afficherMessage((response.message || "Erreur inconnue"), false);
         }
       });
     }
@@ -128,6 +138,8 @@
       document.getElementById("form-pret").addEventListener("submit", ajouterPret);
     };
   </script>
+  <?php include "footer.php"; ?>
+
 </body>
 
 </html>

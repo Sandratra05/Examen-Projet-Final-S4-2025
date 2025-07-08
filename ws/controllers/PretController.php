@@ -50,7 +50,6 @@ class PretController
         PretModel::genererPlanRemboursement($id);
         PretEtatModel::setEtatPret($id,8, date('Y-m-d H:i:s'));
         Flight::json(['success' => true, 'message' => 'Remboursement effectue']);
-
     }
 
 
