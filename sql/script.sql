@@ -93,7 +93,7 @@ CREATE TABLE ef_pret (
    PRIMARY KEY(id_pret),
    FOREIGN KEY(id_type_pret) REFERENCES ef_type_pret(id_type_pret),
    FOREIGN KEY(id_compte) REFERENCES ef_compte(id_compte)
-);
+);_
 
 CREATE TABLE ef_mvt_solde (
    id_mvt_solde INT AUTO_INCREMENT,
@@ -136,3 +136,6 @@ CREATE TABLE ef_remboursement (
    PRIMARY KEY(id_remboursement),
    FOREIGN KEY(id_pret) REFERENCES ef_pret(id_pret)
 );
+
+ALTER TABLE ef_taux_pret
+ADD COLUMN taux_assurance DECIMAL(5,2);

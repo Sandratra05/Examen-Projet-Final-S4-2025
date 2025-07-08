@@ -1,5 +1,5 @@
 
-  <footer class="footer">
+<footer class="footer">
     <div class="footer-logo">
       <img alt="Drapeau rouge et blanc Société Générale" height="14" src="https://storage.googleapis.com/a1aa/image/1580700d-c1fc-46e0-a6cf-f86cffb5a797.jpg" width="20"/>
     </div>
