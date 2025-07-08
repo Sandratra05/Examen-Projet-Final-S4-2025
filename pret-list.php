@@ -59,11 +59,6 @@
         }
     </style>
 </head>
-
-
-
-
-
 <?php include 'header.php'; ?>
 <style>
     .action {
