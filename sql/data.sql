@@ -88,15 +88,15 @@ INSERT INTO ef_mvt_solde (montant, date_mvt, id_type_transaction, id_type_mvt, i
 -- ef_type_pret_compte
 INSERT INTO ef_type_pret_compte (id_type_compte, id_type_pret, date_pret_compte) VALUES
 (1, 1, NOW()),
-(1, 3, NOW()),
+(1, 2, NOW()),
 (2, 1, NOW()),
 (3, 2, NOW());
 
 -- ef_pret_etat
-INSERT INTO ef_pret_etat (id_pret, id_etat_pret, date_pret_etat) VALUES
-(1, 2, '2024-03-02 11:00:00'),
-(2, 1, '2024-02-16 10:00:00'),
-(3, 3, '2024-01-12 09:00:00');
+-- INSERT INTO ef_pret_etat (id_pret, id_etat_pret, date_pret_etat) VALUES
+-- (1, 2, '2024-03-02 11:00:00'),
+-- (2, 1, '2024-02-16 10:00:00'),
+-- (3, 3, '2024-01-12 09:00:00');
 
 
 -- INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret, taux_assurance) VALUES
