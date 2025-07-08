@@ -32,6 +32,9 @@
       <button id="btn-reset" style="margin-left:10px; padding:8px 16px; background:#6c757d; color:white; border:none; border-radius:4px; cursor:pointer;">
         Réinitialiser
       </button>
+        <a href="interet-graphique.php"><button class="btn-graph" style="margin-left:10px; padding:8px 16px; background:#e72e4b; text-decoration:none ;color:white; border:none; border-radius:4px; cursor:pointer;">
+            Voir en repr&eacute;sentation graphique
+      </button></a>
     </div>
 
     <!-- Résumé -->
@@ -143,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const dateFinInput = document.getElementById("date-fin");
   const btnFilter = document.getElementById("btn-filter");
   const btnReset = document.getElementById("btn-reset");
+  const btnGraph = document.getElementById("btn-graph");
 
   // Charger les données au démarrage
   fetchInteretsParMois();
