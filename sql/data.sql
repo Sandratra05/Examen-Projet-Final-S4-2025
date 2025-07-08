@@ -46,12 +46,12 @@ INSERT INTO ef_etat_pret (nom_etat) VALUES
 
 INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret,taux_assurance) VALUES
 -- Prêts personnels (type 1) - Taux élevés
-(18.50, '2023-01-01 00:00:00', 1,3),
-(17.75, '2023-04-15 00:00:00', 1,3),
-(16.90, '2023-07-20 00:00:00', 1,3),
+(18.50, '2000-01-01 00:00:00', 1,3),
+(17.75, '2000-04-15 00:00:00', 1,3),
+(16.90, '2000-07-20 00:00:00', 1,3),
 
 -- Crédits renouvelables (type 2) - Taux très élevés
-(12.00, '2023-01-10 00:00:00', 2,3);
+(12.00, '2000-01-10 00:00:00', 2,3);
 
 -- ef_etablissement_financier
 INSERT INTO ef_etablissement_financier (nom_etablissement, solde_etablissement) VALUES
@@ -74,9 +74,9 @@ INSERT INTO ef_compte (date_creation, mot_de_passe, solde_compte, id_client, id_
 
 -- ef_pret
 INSERT INTO ef_pret (date_pret, montant, duree_remboursement, id_type_pret, id_compte) VALUES
-('2024-03-01 10:00:00', 20000.00, 60, 1, 1),
-('2024-02-15 14:30:00', 150000.00, 240, 2, 2),
-('2024-01-10 09:15:00', 30000.00, 84, 3, 3);
+('2000-03-01 10:00:00', 20000.00, 60, 1, 1),
+('2000-02-15 14:30:00', 150000.00, 240, 2, 2),
+('2000-01-10 09:15:00', 30000.00, 84, 2, 3);
 
 -- ef_mvt_solde
 INSERT INTO ef_mvt_solde (montant, date_mvt, id_type_transaction, id_type_mvt, id_compte) VALUES
@@ -94,9 +94,9 @@ INSERT INTO ef_type_pret_compte (id_type_compte, id_type_pret, date_pret_compte)
 
 -- ef_pret_etat
 -- INSERT INTO ef_pret_etat (id_pret, id_etat_pret, date_pret_etat) VALUES
--- (1, 2, '2024-03-02 11:00:00'),
--- (2, 1, '2024-02-16 10:00:00'),
--- (3, 3, '2024-01-12 09:00:00');
+-- (1, 2, '2000-03-02 11:00:00'),
+-- (2, 1, '2000-02-16 10:00:00'),
+-- (3, 3, '2000-01-12 09:00:00');
 
 
 -- INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret, taux_assurance) VALUES
@@ -114,8 +114,8 @@ INSERT INTO ef_type_pret_compte (id_type_compte, id_type_pret, date_pret_compte)
 
 
 INSERT INTO ef_mvt_type_pret (montant_min, montant_max, date_mvt, id_type_pret) VALUES
-(100000.00, 5000000.00, '2023-01-01 00:00:00', 1),  -- Prêt personnel
-(2000000.00, 200000000.00, '2023-01-10 00:00:00', 2);  -- Prêt immobilier
+(100000.00, 5000000.00, '2000-01-01 00:00:00', 1),  -- Prêt personnel
+(2000000.00, 200000000.00, '2000-01-10 00:00:00', 2);  -- Prêt immobilier
 -- (500000.00, 40000000.00, '2000-07-01 00:00:00', 3),  -- Prêt automobile
 -- (100000.00, 3000000.00, '2000-07-01 00:00:00', 4),  -- Prêt étudiant
 -- (50000.00, 1500000.00, '2000-07-01 00:00:00', 5),  -- Crédit renouvelable

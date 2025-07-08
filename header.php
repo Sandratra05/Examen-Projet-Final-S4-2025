@@ -12,11 +12,13 @@
   <!-- Top pink bar -->
   <header class="form-header">
     <div style="font-size: 2rem; color:#050a3a;">Bankiko</div>
+    <div><a href="index.php">Accueil</a></div>
     <div><a href="fond-form.php">Ajout de fond</a></div>
     <div><a href="typepret-form.php">Ajout Type de pr&ecirc;t</a></div>
     <div><a href="typepret-list.php">List Type de pr&ecirc;t</a></div>
     <div><a href="pret-form.php">Demande de pr&ecirc;t</a></div>
     <div><a href="pret-list.php">Liste des pr&ecirc;ts</a></div>
+    <div><a href="comparaison.php">Comparaison de pr&ecirc;t</a></div>
     <div><a href="interet-list.php">Tableau des int&eacute;r&ecirc;ts</a></div>
   
     

@@ -66,6 +66,17 @@ class PretController
     //     Flight::json(['success' => true, 'message' => 'Remboursement effectue']);
     // }
 
+    public static function validerPret($id){
+        PretModel::genererPlanRemboursement($id);
+        PretEtatModel::setEtatPret($id, 2, date('Y-m-d H:i:s'));
+        Flight::json(['success' => true, 'message' => 'Validation effectue']);
+    }
+
+    public static function refuserPret($id){
+        PretModel::genererPlanRemboursement($id);
+        PretEtatModel::setEtatPret($id, 4, date('Y-m-d H:i:s'));
+        Flight::json(['success' => true, 'message' => 'Validation rejete']);
+    }
 
     // Nouvelle méthode pour afficher le PDF d'un prêt
 public static function afficherPdfPret($id)
@@ -298,28 +309,28 @@ public static function debugPret($id)
 // Route pour debug (à ajouter temporairement)
 // Flight::route('GET /debug/pret/@id', 'PretController::debugPret');
 
-public static function validerPret($id)
-{
-    try {
-        // Vérifier si le prêt existe
-        $pretData = PretModel::getPretCompletData($id);
+// public static function validerPret($id)
+// {
+//     try {
+//         // Vérifier si le prêt existe
+//         $pretData = PretModel::getPretCompletData($id);
         
-        if (!$pretData) {
-            Flight::json(['success' => false, 'message' => 'Prêt non trouvé'], 404);
-            return;
-        }
+//         if (!$pretData) {
+//             Flight::json(['success' => false, 'message' => 'Prêt non trouvé'], 404);
+//             return;
+//         }
         
-        // Générer le plan de remboursement
-        PretModel::genererPlanRemboursement($id);
+//         // Générer le plan de remboursement
+//         PretModel::genererPlanRemboursement($id);
         
-        // Changer l'état du prêt (par exemple, état 2 pour "validé")
-        PretEtatModel::setEtatPret($id, 2, date('Y-m-d H:i:s'));
+//         // Changer l'état du prêt (par exemple, état 2 pour "validé")
+//         PretEtatModel::setEtatPret($id, 2, date('Y-m-d H:i:s'));
         
-        Flight::json(['success' => true, 'message' => 'Prêt validé avec succès']);
+//         Flight::json(['success' => true, 'message' => 'Prêt validé avec succès']);
         
-    } catch (Exception $e) {
-        Flight::json(['success' => false, 'message' => 'Erreur lors de la validation : ' . $e->getMessage()], 500);
-    }
-}
+//     } catch (Exception $e) {
+//         Flight::json(['success' => false, 'message' => 'Erreur lors de la validation : ' . $e->getMessage()], 500);
+//     }
+// }
 
 }
