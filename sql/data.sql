@@ -35,7 +35,7 @@ INSERT INTO ef_compte (date_creation, mot_de_passe, solde_compte, id_client, id_
 
 INSERT INTO ef_etat_pret (nom_etat) VALUES 
 ('En attente'),       -- Prêt en cours de traitement
-('Approuvé'),        -- Prêt validé par la banque
+('Simule'),        -- Prêt validé par la banque
 ('Rejeté'),          -- Prêt refusé
 ('Débloqué'),        -- Montant versé au client
 ('En remboursement'), -- Remboursement en cours

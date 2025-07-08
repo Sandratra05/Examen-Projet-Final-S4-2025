@@ -162,6 +162,28 @@ class PretModel
         }
     }
 
+    public static function getDernierEtatPret(int $idPret) {
+        $db = getDB();
+        $sql = "
+            SELECT epe.id_etat_pret, ep.nom_etat
+            FROM ef_pret_etat epe
+            JOIN ef_etat_pret ep ON epe.id_etat_pret = ep.id_etat_pret
+            WHERE epe.id_pret = ?
+            ORDER BY epe.date_pret_etat DESC
+            LIMIT 1
+        ";
+    
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$idPret]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result ?: null;
+        } catch (PDOException $e) {
+            error_log("Erreur getDernierEtatPret ($idPret): " . $e->getMessage());
+            return null;
+        }
+    }
+
     public static function genererPlanRemboursement(int $idPret): bool
     {
         // 1. Récupérer les données complètes du prêt avec son taux
@@ -180,6 +202,12 @@ class PretModel
 
         if (!$pretData) {
             error_log("Prêt $idPret introuvable ou taux non défini");
+            return false;
+        }
+
+        $etat_pret = PretModel::getDernierEtatPret($idPret);
+        if ($etat_pret['id_etat_pret'] != 1) {
+            error_log("Le pret n'est pas en etat d'etre valide");
             return false;
         }
 
@@ -231,4 +259,7 @@ class PretModel
 
         return true;
     }
+
+   
+
 }
