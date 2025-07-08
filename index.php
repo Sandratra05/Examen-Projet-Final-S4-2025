@@ -1,126 +1,104 @@
-<!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Gestion des étudiants</title>
+ <head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bankiko - Banque Malagasy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    input, button { margin: 5px; padding: 5px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #f2f2f2; }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
   </style>
-</head>
-<body>
+ </head>
+ <body class="bg-white text-gray-900">
 
-  <a href="fond-form.php">Insertion des fonds</a>
-  <h1>Gestion des étudiants</h1>
+ <?php include 'header.php'; ?>
 
-  <div>
-    <input type="hidden" id="id">
-    <input type="text" id="nom" placeholder="Nom">
-    <input type="text" id="prenom" placeholder="Prénom">
-    <input type="email" id="email" placeholder="Email">
-    <input type="number" id="age" placeholder="Âge">
-    <button onclick="ajouterOuModifier()">Ajouter / Modifier</button>
-  </div>
+ <!-- Section Hero -->
+ <section class="relative text-white px-6 sm:px-10 md:px-16 py-16 md:py-24 max-w-7xl mx-auto" style="background-color: #2c3e50;">
+   <div class="max-w-lg">
+    <h1 class="text-3xl sm:text-4xl font-semibold leading-tight mb-2">
+     Le bleu vous
+     <br/>
+     va à merveille
+    </h1>
+    <h2 class="text-lg font-semibold mb-4">
+     Bienvenue chez Bankiko
+     <br/>
+     La banque des Malgaches
+    </h2>
+    <p class="text-xs leading-tight mb-6">
+     Nous sommes heureux de vous accueillir et de continuer à vous accompagner chaque jour. Retrouvez vos agences habituelles, avec les mêmes équipes, produits et services que vous connaissez déjà.
+    </p>
+    <p class="text-xs leading-tight">
+     Comptez sur notre engagement à vos côtés, à tout moment !
+    </p>
+   </div>
+   <div class="absolute right-10 top-1/2 -translate-y-1/2 flex flex-col space-y-1 cursor-pointer">
+    <i class="fas fa-chevron-down text-white text-xl"></i>
+    <i class="fas fa-chevron-down text-white text-xl"></i>
+   </div>
+ </section>
 
-  <table id="table-etudiants">
-    <thead>
-      <tr>
-        <th>ID</th><th>Nom</th><th>Prénom</th><th>Email</th><th>Âge</th><th>Actions</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-  <script src="url.js"></script>
+ <!-- Contenu principal -->
+ <main class="max-w-7xl mx-auto px-6 sm:px-10 md:px-16 mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+   <!-- Section Actualités -->
+   <section class="md:col-span-1 text-blue-700 text-sm font-normal">
+    <p class="uppercase font-semibold mb-1">ACTUALITÉS</p>
+    <h3 class="font-semibold mb-3 leading-snug">
+     Carte bancaire + chéquier : le duo gagnant pour vos paiements
+    </h3>
+    <button class="text-blue-700 text-xs font-normal border border-blue-700 rounded px-3 py-1 hover:bg-blue-50" type="button">
+     Contacter un conseiller
+    </button>
+   </section>
 
-  <script>
-        // const apiBase = "http://172.60.0.13/t/Examen-Projet-Final-S4-2025/ws";
-    // const apiBase = "http://localhost:80/ETU003197/t/Examen-Projet-Final-S4-2025/ws";
+   <!-- Section FAQ -->
+   <section class="md:col-span-2 text-blue-700 text-sm font-normal max-w-md">
+    <p class="uppercase font-semibold mb-1">FAQ</p>
+    <h3 class="font-semibold mb-2">
+     Vous souhaitez en savoir plus sur cette transition ?
+    </h3>
+    <p class="text-xs mb-6 text-gray-600">
+     Retrouvez ici les réponses aux questions fréquemment posées.
+    </p>
+    <div class="space-y-4">
+     <details class="border-b border-gray-200 pb-2">
+      <summary class="cursor-pointer font-semibold text-xs flex justify-between items-center">
+       Quelles sont les activités bancaires concernées par ce changement ?
+       <i class="fas fa-chevron-down text-xs text-blue-700"></i>
+      </summary>
+      <p class="text-xs mt-2 text-gray-600 leading-tight">
+       Cela concerne toutes les activités bancaires : paiements, opérations financières, services aux entreprises et aux particuliers.
+      </p>
+     </details>
+     <details class="border-b border-gray-200 pb-2">
+      <summary class="cursor-pointer font-semibold text-xs flex justify-between items-center">
+       Pourquoi Bankiko a-t-elle repris l'ancienne banque ?
+       <i class="fas fa-chevron-down text-xs text-blue-700"></i>
+      </summary>
+      <p class="text-xs mt-2 text-gray-600 leading-tight">
+       L’objectif est de renforcer l’offre bancaire à Madagascar et de proposer des services encore plus proches des Malgaches.
+      </p>
+     </details>
+     <details class="border-b border-gray-200 pb-2">
+      <summary class="cursor-pointer font-semibold text-xs flex justify-between items-center">
+       Qu’est-ce qui distingue Bankiko ?
+       <i class="fas fa-chevron-down text-xs text-blue-700"></i>
+      </summary>
+      <p class="text-xs mt-2 text-gray-600 leading-tight">
+       Une banque proche des gens, qui offre des services rapides, simples et durables, en phase avec la langue et la culture malgaches.
+      </p>
+     </details>
+    </div>
+    <button class="mt-4 text-blue-700 text-xs font-normal border border-blue-700 rounded px-3 py-1 hover:bg-blue-50" type="button">
+     Voir toutes les questions
+    </button>
+   </section>
+ </main>
 
-    function ajax(method, url, data, callback) {
-      const xhr = new XMLHttpRequest();
-      xhr.open(method, apiBase + url, true);
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          callback(JSON.parse(xhr.responseText));
-        }
-      };
-      xhr.send(data);
-    }
-
-    function chargerEtudiants() {
-      ajax("GET", "/etudiants", null, (data) => {
-        const tbody = document.querySelector("#table-etudiants tbody");
-        tbody.innerHTML = "";
-        data.forEach(e => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${e.id}</td>
-            <td>${e.nom}</td>
-            <td>${e.prenom}</td>
-            <td>${e.email}</td>
-            <td>${e.age}</td>
-            <td>
-              <button onclick='remplirFormulaire(${JSON.stringify(e)})'>✏️</button>
-              <button onclick='supprimerEtudiant(${e.id})'>🗑️</button>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
-      });
-    }
-
-    function ajouterOuModifier() {
-      const id = document.getElementById("id").value;
-      const nom = document.getElementById("nom").value;
-      const prenom = document.getElementById("prenom").value;
-      const email = document.getElementById("email").value;
-      const age = document.getElementById("age").value;
-
-      const data = `nom=${encodeURIComponent(nom)}&prenom=${encodeURIComponent(prenom)}&email=${encodeURIComponent(email)}&age=${age}`;
-
-      if (id) {
-        ajax("PUT", `/etudiants/${id}`, data, () => {
-          resetForm();
-          chargerEtudiants();
-        });
-      } else {
-        ajax("POST", "/etudiants", data, () => {
-          resetForm();
-          chargerEtudiants();
-        });
-      }
-    }
-
-    function remplirFormulaire(e) {
-      document.getElementById("id").value = e.id;
-      document.getElementById("nom").value = e.nom;
-      document.getElementById("prenom").value = e.prenom;
-      document.getElementById("email").value = e.email;
-      document.getElementById("age").value = e.age;
-    }
-
-    function supprimerEtudiant(id) {
-      if (confirm("Supprimer cet étudiant ?")) {
-        ajax("DELETE", `/etudiants/${id}`, null, () => {
-          chargerEtudiants();
-        });
-      }
-    }
-
-    function resetForm() {
-      document.getElementById("id").value = "";
-      document.getElementById("nom").value = "";
-      document.getElementById("prenom").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("age").value = "";
-    }
-
-    chargerEtudiants();
-  </script>
-
-</body>
+ <?php include 'footer.php'; ?>
+ </body>
 </html>
