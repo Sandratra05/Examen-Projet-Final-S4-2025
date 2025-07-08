@@ -56,15 +56,21 @@ class PretController
 
     public static function simulerPret($id){
         PretModel::genererPlanRemboursement($id);
-        PretEtatModel::setEtatPret($id, 2, date('Y-m-d H:i:s'));
+        PretEtatModel::setEtatPret($id, 3, date('Y-m-d H:i:s'));
         Flight::json(['success' => true, 'message' => 'Remboursement effectue']);
     }
 
-    // public static function validerPret($id){
-    //     PretModel::genererPlanRemboursement($id);
-    //     PretEtatModel::setEtatPret($id, 2, date('Y-m-d H:i:s'));
-    //     Flight::json(['success' => true, 'message' => 'Remboursement effectue']);
-    // }
+    public static function validerPret($id){
+        PretModel::genererPlanRemboursement($id);
+        PretEtatModel::setEtatPret($id, 2, date('Y-m-d H:i:s'));
+        Flight::json(['success' => true, 'message' => 'Validation effectue']);
+    }
+
+    public static function refuserPret($id){
+        PretModel::genererPlanRemboursement($id);
+        PretEtatModel::setEtatPret($id, 4, date('Y-m-d H:i:s'));
+        Flight::json(['success' => true, 'message' => 'Validation rejete']);
+    }
 
 
     // Nouvelle méthode pour afficher le PDF d'un prêt

@@ -9,16 +9,49 @@
         .btn-simuler {
             background-color: #2ecc71;
             color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 12px;
+            transition: background-color 0.3s;
         }
 
         .btn-refuser {
             background-color: #e74c3c;
             color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 12px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-valider {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 12px;
+            transition: background-color 0.3s;
         }
 
         .btn-pdf {
             background-color: #9b59b6;
             color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 12px;
+            transition: background-color 0.3s;
         }
 
         .btn-simuler:hover {
@@ -27,6 +60,10 @@
 
         .btn-refuser:hover {
             background-color: #c0392b;
+        }
+
+        .btn-valider:hover {
+            background-color: #2980b9;
         }
 
         .btn-pdf:hover {
@@ -56,6 +93,15 @@
         .actions-cell {
             white-space: nowrap;
             min-width: 200px;
+        }
+
+        .checkbox-cell {
+            text-align: center;
+            width: 50px;
+        }
+
+        .checkbox-cell input[type="checkbox"] {
+            transform: scale(1.2);
         }
     </style>
 </head>
@@ -114,9 +160,9 @@
                 <select id="etat-filtre">
                     <option value="">-- Tous --</option>
                     <option value="En attente">En attente</option>
-                    <option value="Validé">Validé</option>
-                    <option value="Refusé">Refusé</option>
-                    <!-- Ajoute d'autres états si nécessaire -->
+                    <option value="Simulé">Simulé</option>
+                    <option value="Approuvé">Approuvé</option>
+                    <option value="Rejeté">Rejeté</option>
                 </select>
             </div>
 
@@ -132,6 +178,7 @@
                             <th>Date de prêt</th>
                             <th>Durée remboursement (mois)</th>
                             <th>Actions</th>
+                            <th>Cocher</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -179,11 +226,32 @@
             }
         }
 
+        function validerPret(id) {
+            if (id) {
+                if (confirm("Êtes-vous sûr de vouloir valider ce prêt ?")) {
+                    ajax("GET", `/prets/validation/${id}`, null, (response, status) => {
+                        if (status === 200 && response.success) {
+                            alert(response.message);
+                            chargerPret(); // recharge la liste
+                        } else {
+                            alert("Erreur : " + (response.message || "Échec de validation."));
+                        }
+                    });
+                }
+            }
+        }
+
         function refuserPret(id) {
             if (id) {
-                if (confirm("Êtes-vous sûr de vouloir refuser ce prêt ?")) {
-                    // Logique pour refuser le prêt
-                    alert("Fonctionnalité à implémenter");
+                if (confirm("Êtes-vous sûr de vouloir rejeter ce prêt ?")) {
+                    ajax("GET", `/prets/rejet/${id}`, null, (response, status) => {
+                        if (status === 200 && response.success) {
+                            alert(response.message);
+                            chargerPret(); // recharge la liste
+                        } else {
+                            alert("Erreur : " + (response.message || "Échec du rejet."));
+                        }
+                    });
                 }
             }
         }
@@ -205,53 +273,72 @@
             return '';
         }
 
+        function getActionsButtons(etat, id) {
+            const etatLower = etat.toLowerCase();
+            
+            if (etatLower.includes('approuvé') || etatLower.includes('approuve')) {
+                // Si approuvé, seulement le bouton PDF
+                return `
+                    <button class="btn-pdf" onclick="afficherPdfPret(${id})">
+                        Afficher PDF
+                    </button>
+                `;
+            }
+            
+            if (etatLower.includes('rejeté') || etatLower.includes('rejete')) {
+                // Si rejeté, seulement le bouton PDF
+                return `
+                    <button class="btn-pdf" onclick="afficherPdfPret(${id})">
+                        Afficher PDF
+                    </button>
+                `;
+            }
+            
+            if (etatLower.includes('attente')) {
+                // Si en attente, afficher les trois boutons + PDF
+                return `
+                    <button class="btn-simuler" onclick="simulerPret(${id})">
+                        Simuler
+                    </button>
+                    <button class="btn-valider" onclick="validerPret(${id})">
+                        Valider
+                    </button>
+                    <button class="btn-refuser" onclick="refuserPret(${id})">
+                        Refuser
+                    </button>
+                    <button class="btn-pdf" onclick="afficherPdfPret(${id})">
+                        Afficher PDF
+                    </button>
+                `;
+            }
+            
+            if (etatLower.includes('simulé') || etatLower.includes('simule')) {
+                // Si simulé, afficher valider, refuser et PDF
+                return `
+                    <button class="btn-valider" onclick="validerPret(${id})">
+                        Valider
+                    </button>
+                    <button class="btn-refuser" onclick="refuserPret(${id})">
+                        Refuser
+                    </button>
+                    <button class="btn-pdf" onclick="afficherPdfPret(${id})">
+                        Afficher PDF
+                    </button>
+                `;
+            }
+            
+            // Par défaut, seulement le bouton PDF
+            return `
+                <button class="btn-pdf" onclick="afficherPdfPret(${id})">
+                    Afficher PDF
+                </button>
+            `;
+        }
+
         function chargerPret() {
             ajax("GET", "/prets/liste", null, (data) => {
                 toutesLesPrets = data;
                 filtrerEtAfficher();
-                const tbody = document.querySelector("#listePret tbody");
-                tbody.innerHTML = "";
-
-                data.forEach(e => {
-                    const tr = document.createElement("tr");
-                    const etatClass = getEtatClass(e.etat_pret);
-                    const estSimule = e.etat_pret.toLowerCase().includes('clôturé') || e.etat_pret.toLowerCase().includes('cloture');
-
-                    let actionsHtml = '';
-
-                    if (estSimule) {
-                        // Si déjà simulé, afficher seulement le bouton PDF
-                        actionsHtml = `
-                            <button class="btn btn-pdf" onclick="afficherPdfPret(${e.id_pret})">
-                                Afficher PDF
-                            </button>
-                        `;
-                    } else {
-                        // Si pas encore simulé, afficher les boutons simuler et refuser
-                        actionsHtml = `
-                            <button class="btn btn-simuler" onclick="simulerPret(${e.id_pret})">
-                                Simuler
-                            </button>
-                            <button class="btn btn-refuser" onclick="refuserPret(${e.id_pret})">
-                                Refuser
-                            </button>
-                        `;
-                    }
-
-                    tr.innerHTML = `
-                        <td>${e.id_pret}</td>
-                        <td><span class="${etatClass}">${e.etat_pret}</span></td>
-                        <td>${e.numero_compte}</td>
-                        <td>${e.client}</td>
-                        <td>${parseFloat(e.montant).toLocaleString('fr-FR')} Ar</td>
-                        <td>${new Date(e.date_pret).toLocaleDateString('fr-FR')}</td>
-                        <td>${e.duree_remboursement}</td>
-                        <td class="actions-cell">
-                            ${actionsHtml}
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                });
             });
         }
 
@@ -278,18 +365,24 @@
 
                 if (correspondDate && correspondEtat) {
                     const tr = document.createElement("tr");
+                    const etatClass = getEtatClass(e.etat_pret);
+                    const actionsHtml = getActionsButtons(e.etat_pret, e.id_pret);
+
                     tr.innerHTML = `
-                    <td>${e.id_pret}</td>
-                    <td>${e.etat_pret}</td>
-                    <td style="text-align:right;">${e.numero_compte}</td>
-                    <td>${e.client}</td>
-                    <td>${e.montant}</td>
-                    <td>${e.date_pret}</td>
-                    <td style="text-align:right;">${e.duree_remboursement}</td>
-                    <td>
-                        <button class="btn btn-simuler action" onclick="simulerPret(${e.id_pret})">Simuler</button>
-                        <button class="btn btn-refuser action" onclick="refuserPret(${e.id_pret})">Refuser</button>
-                    </td>`;
+                        <td>${e.id_pret}</td>
+                        <td><span class="${etatClass}">${e.etat_pret}</span></td>
+                        <td>${e.numero_compte}</td>
+                        <td>${e.client}</td>
+                        <td>${parseFloat(e.montant).toLocaleString('fr-FR')} Ar</td>
+                        <td>${new Date(e.date_pret).toLocaleDateString('fr-FR')}</td>
+                        <td>${e.duree_remboursement}</td>
+                        <td class="actions-cell">
+                            ${actionsHtml}
+                        </td>
+                        <td class="checkbox-cell">
+                            <input type="checkbox" name="pret_checkbox" value="${e.id_pret}">
+                        </td>
+                    `;
                     tbody.appendChild(tr);
                 }
             });
@@ -303,3 +396,5 @@
     </script>
 
     <?php include 'footer.php'; ?>
+</body>
+</html>
