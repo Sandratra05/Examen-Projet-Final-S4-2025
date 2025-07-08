@@ -5,7 +5,7 @@ class RemboursementModel {
     public static function insererRemboursement(int $idPret, string $date, float $montantPayer, float $ammortisement, float $interet): bool
     {
         $sql = "INSERT INTO ef_remboursement 
-                (id_pret, date, montant_payer, ammortisement, interet) 
+                (id_pret, date_remboursement, montant_payer, ammortisement, interet) 
                 VALUES (?, ?, ?, ?, ?)";
 
         $params = [

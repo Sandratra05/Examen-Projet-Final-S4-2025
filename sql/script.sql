@@ -131,7 +131,7 @@ CREATE TABLE ef_pret_etat (
 CREATE TABLE ef_remboursement (
    id_remboursement INT AUTO_INCREMENT,
    id_pret INT NOT NULL,
-   date DATE NOT NULL,
+   date_remboursement DATE NOT NULL,
    montant_payer DECIMAL(15,2) NOT NULL,
    ammortisement DECIMAL(15,2) NOT NULL,
    interet DECIMAL(15,2) NOT NULL,

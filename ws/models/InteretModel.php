@@ -15,9 +15,9 @@ class InteretModel {
         try {
             $sql = "
                 SELECT 
-                    YEAR(r.date) AS annee,
-                    MONTH(r.date) AS mois,
-                    MONTHNAME(r.date) AS nom_mois,
+                    YEAR(r.date_remboursement) AS annee,
+                    MONTH(r.date_remboursement) AS mois,
+                    MONTHNAME(r.date_remboursement) AS nom_mois,
                     SUM(r.interet) AS total_interet,
                     COUNT(*) AS nombre_remboursements,
                     SUM(r.montant_payer) AS total_montant_paye,
@@ -41,16 +41,16 @@ class InteretModel {
             $params = [];
             
             if ($dateDebut) {
-                $sql .= " AND date >= :date_debut";
+                $sql .= " AND date_remboursement >= :date_debut";
                 $params[':date_debut'] = $dateDebut;
             }
             
             if ($dateFin) {
-                $sql .= " AND date <= :date_fin";
+                $sql .= " AND date_remboursement <= :date_fin";
                 $params[':date_fin'] = $dateFin;
             }
             
-            $sql .= " GROUP BY YEAR(date), MONTH(date)";
+            $sql .= " GROUP BY YEAR(r.date_remboursement), MONTH(r.date_remboursement), MONTHNAME(r.date_remboursement)";
             $sql .= " ORDER BY annee DESC, mois DESC";
             
             $stmt = $db->prepare($sql);
@@ -78,12 +78,12 @@ class InteretModel {
             $params = [];
             
             if ($dateDebut) {
-                $sql .= " AND date >= :date_debut";
+                $sql .= " AND date_remboursement >= :date_debut";
                 $params[':date_debut'] = $dateDebut;
             }
             
             if ($dateFin) {
-                $sql .= " AND date <= :date_fin";
+                $sql .= " AND date_remboursement <= :date_fin";
                 $params[':date_fin'] = $dateFin;
             }
             
