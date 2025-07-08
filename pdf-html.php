@@ -4,6 +4,21 @@
   <meta charset="UTF-8">
   <title>Résumé de Prêt</title>
   <style>
+        .no-print button {
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .no-print button:hover {
+      background-color: #0056b3;
+    }
+
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
@@ -28,6 +43,13 @@
       font-weight: bold;
       display: inline-block;
       width: 180px;
+    }
+
+      /* Cacher tout ce qui est .no-print pendant l'impression */
+    @media print {
+      .no-print {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -59,7 +81,7 @@
       <p>Signature client : ______________________</p>
     </div>
 
-    <div class="no-print">
+    <div class="no-print virement-btn">
       <button onclick="window.print()"> Imprimer PDF</button>
     </div>
   
