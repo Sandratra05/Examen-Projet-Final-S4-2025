@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../models/TypePretModel.php';
 require_once __DIR__ . '/../helpers/Utils.php';
 
+
 class TypePretController {
 
     public static function form() {
@@ -127,6 +128,10 @@ public static function update() {
         echo json_encode(['success' => false, 'errors' => ['Erreur système: ' . $e->getMessage()]]);
     }
 }
-// ...existing code...
-    
+
+    public static function getAll(){
+        $type_prets = TypePretModel::getAll();
+        Flight::json($type_prets);
+    }
+
 }
