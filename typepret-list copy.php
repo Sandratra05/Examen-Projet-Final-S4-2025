@@ -21,7 +21,6 @@
             <th>Montant min</th>
             <th>Montant max</th>
             <th>Taux (%)</th>
-            <th>Taux d'assurance (%)</th>
             <th>Date</th>
             <th>Action</th>
           </tr>
@@ -34,9 +33,24 @@
   </section>
 </main>
 
-<script src="ajax.js"></script>
 <script>
+const apiBase = "http://localhost/ETU003197/t/Examen-Projet-Finale-S4-2025/ws";
 
+function ajax(method, url, data, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.open(method, apiBase + url, true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        callback(JSON.parse(xhr.responseText));
+      } else {
+        callback({success: false, errors: ["Erreur réseau"]});
+      }
+    }
+  };
+  xhr.send(data);
+}
 
 function fetchTypePrets(date) {
   ajax("POST", "/typepret/list", "date=" + encodeURIComponent(date), function(res) {
@@ -54,7 +68,6 @@ function fetchTypePrets(date) {
           <td>${tp.montant_min !== null ? tp.montant_min : "-"}</td>
           <td>${tp.montant_max !== null ? tp.montant_max : "-"}</td>
           <td>${tp.taux !== null ? tp.taux : "-"}</td>
-          <td>${tp.taux_assurance !== null ? tp.taux_assurance : "-"}</td>
           <td>${tp.date_mvt || tp.date_taux || "-"}</td>
           <td>
             <a href="typepret-form.php?id=${tp.id_type_pret}" title="Modifier">

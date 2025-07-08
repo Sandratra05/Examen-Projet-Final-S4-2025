@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../db.php';
 
+
 class TypePretModel {
     
     /**
@@ -12,7 +13,7 @@ class TypePretModel {
      * @param string $date - date au format 'Y-m-d H:i:s'
      * @return int - id du type de prêt créé
      */
-    public static function create($text, $min, $max, $taux, $date) {
+    public static function create($text, $min, $max, $taux, $date , $taux_assurance) {
         $db = getDB();
         
         try {
@@ -24,12 +25,12 @@ class TypePretModel {
             $id_type_pret = $db->lastInsertId();
             
             // 2. Ajouter le mouvement (min/max) avec la date
-            $stmt = $db->prepare("INSERT INTO ef_mvt_type_pret (montant_min, montant_max, date_mvt, id_type_pret) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$min, $max, $date, $id_type_pret]);
+            $stmt = $db->prepare("INSERT INTO ef_mvt_type_pret (montant_min, montant_max, date_mvt, id_type_pret) VALUES (?, ?, ?, ? )");
+            $stmt->execute([$min, $max, $date, $id_type_pret ]);
             
             // 3. Ajouter le taux avec la date
-            $stmt = $db->prepare("INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret) VALUES (?, ?, ?)");
-            $stmt->execute([$taux, $date, $id_type_pret]);
+            $stmt = $db->prepare("INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret , taux_assurance) VALUES (?, ?, ? , ?)");
+            $stmt->execute([$taux, $date, $id_type_pret , $taux_assurance]);
             
             $db->commit();
             return $id_type_pret;
@@ -61,7 +62,7 @@ class TypePretModel {
         
         // Récupérer le mouvement le plus récent (montant min/max) à la date donnée
         $stmt = $db->prepare("
-            SELECT montant_min, montant_max, date_mvt 
+            SELECT montant_min, montant_max, date_mvt  
             FROM ef_mvt_type_pret 
             WHERE id_type_pret = ? AND date_mvt <= ? 
             ORDER BY date_mvt DESC 
@@ -72,7 +73,7 @@ class TypePretModel {
         
         // Récupérer le taux le plus récent à la date donnée
         $stmt = $db->prepare("
-            SELECT taux, date_taux 
+            SELECT taux,taux_assurance ,date_taux 
             FROM ef_taux_pret 
             WHERE id_type_pret = ? AND date_taux <= ? 
             ORDER BY date_taux DESC 
@@ -90,7 +91,8 @@ class TypePretModel {
         'montant_max' => null,
         'date_mvt' => null,
         'taux' => null,
-        'date_taux' => null
+        'date_taux' => null,
+        'taux_assurance' => null
     ];
 } else {
     $result = [
@@ -100,7 +102,8 @@ class TypePretModel {
         'montant_max' => $mouvement ? $mouvement['montant_max'] : null,
         'date_mvt' => $mouvement ? $mouvement['date_mvt'] : null,
         'taux' => $taux ? $taux['taux'] : null,
-        'date_taux' => $taux ? $taux['date_taux'] : null
+        'date_taux' => $taux ? $taux['date_taux'] : null,
+        'taux_assurance' => $taux ? $taux['taux_assurance'] : null,
     ];
 }
 
@@ -114,7 +117,7 @@ class TypePretModel {
      */
     public static function getAll() {
         $db = getDB();
-        $stmt = $db->query("SELECT * FROM ef_type_pret ORDER BY nom_type_pret");
+        $stmt = $db->query("SELECT * FROM ef_type_pret ORDER BY id_type_pret");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
@@ -126,7 +129,7 @@ class TypePretModel {
      * @param float $taux - nouveau taux
      * @param string $date - date de mise à jour
      */
-    public static function updateParameters($id_type_pret, $min, $max, $taux, $date) {
+    public static function updateParameters($id_type_pret, $min, $max, $taux, $date , $taux_assurance) {
         $db = getDB();
         
         try {
@@ -137,8 +140,8 @@ class TypePretModel {
             $stmt->execute([$min, $max, $date, $id_type_pret]);
             
             // Ajouter un nouveau taux
-            $stmt = $db->prepare("INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret) VALUES (?, ?, ?)");
-            $stmt->execute([$taux, $date, $id_type_pret]);
+            $stmt = $db->prepare("INSERT INTO ef_taux_pret (taux, date_taux, id_type_pret , taux_assurance ) VALUES (?, ?, ? , ?)");
+            $stmt->execute([$taux, $date, $id_type_pret , $taux_assurance]);
             
             $db->commit();
             
@@ -149,3 +152,4 @@ class TypePretModel {
     }
 }
 ?>
+

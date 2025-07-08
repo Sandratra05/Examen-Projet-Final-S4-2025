@@ -616,7 +616,7 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-.form-header {
+.form-header, .form-header a {
   background-color: #e72e4b;
   color: white;
   font-size: 12px;
@@ -626,6 +626,7 @@ body {
   align-items: center;
   padding: 8px 24px;
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 .form-nav {

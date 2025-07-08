@@ -16,7 +16,7 @@ class FondController {
 
     public static function getById($id) {   
         $fond = FondModel::getById($id);
-        Flight::json($fond);
+    Flight::json($fond);
     }
 
     // public static function create() {
@@ -28,8 +28,6 @@ class FondController {
     // }
 
     public static function create() {
-        $data = Flight::request()->data;
-        $id = FondModel::create($data);
         try {
             $data = Flight::request()->data;
 

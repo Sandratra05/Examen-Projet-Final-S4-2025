@@ -21,7 +21,7 @@
 
         <div class="form-inputs">
         <input class="form-input" id="id" type="hidden" value="1" />
-        <input class="form-input" id="solde" name="solde" placeholder="Ex : 1 000" type="number" step="1" required />
+        <input class="form-input" id="solde" name="solde" placeholder="Ex : 1 000" type="number" required />
 
         <!-- <div class="date-input-container">
             <input 
@@ -60,6 +60,8 @@
             e.preventDefault();
 
             const solde = document.getElementById("solde").value;
+            console.log(solde);
+            
             const id = document.getElementById("id").value;
             const data = `solde=${encodeURIComponent(solde)}&id=${encodeURIComponent(id)}`;
             
@@ -68,11 +70,13 @@
 
             if (solde > 0) {
                 ajax("POST", "/fonds", data, (responseText) => {
-                    console.log("Réponse brute du serveur :", responseText); 
+                    console.log("Réponse brute du serveur (fond-form) :", responseText); 
                     try {
-                        const response = JSON.parse(responseText);
+                        // const response = JSON.parse(responseText);
+                        console.log("Solde = " + data);
+                        
                         messageContainer.style.display = "block";
-                        if (response.success === true) {
+                        if (responseText.success === true) {
                             messageContainer.style.color = "green";
                             messageContainer.innerText = "Fond inséré avec succès !";
                             document.getElementById("solde").value = "";
