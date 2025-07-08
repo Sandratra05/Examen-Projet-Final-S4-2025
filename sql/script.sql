@@ -1,6 +1,6 @@
 
--- DROP DATABASE db_s2_ETU003197;
--- CREATE DATABASE db_s2_ETU003197 CHARACTER SET utf8mb4;
+DROP DATABASE db_s2_ETU003197;
+CREATE DATABASE db_s2_ETU003197 CHARACTER SET utf8mb4;
 
 USE db_s2_ETU003197;
 
@@ -125,3 +125,21 @@ CREATE TABLE ef_pret_etat (
    FOREIGN KEY(id_pret) REFERENCES ef_pret(id_pret),
    FOREIGN KEY(id_etat_pret) REFERENCES ef_etat_pret(id_etat_pret)
 );
+
+CREATE TABLE ef_remboursement (
+   id_remboursement INT AUTO_INCREMENT,
+   id_pret INT NOT NULL,
+   date DATE NOT NULL,
+   montant_payer DECIMAL(15,2) NOT NULL,
+   ammortisement DECIMAL(15,2) NOT NULL,
+   interet DECIMAL(15,2) NOT NULL,
+   PRIMARY KEY(id_remboursement),
+   FOREIGN KEY(id_pret) REFERENCES ef_pret(id_pret)
+);
+
+ALTER TABLE ef_taux_pret
+ADD COLUMN taux_assurance DECIMAL(5,2);
+
+
+ALTER TABLE ef_pret
+ADD COLUMN delai_remboursement DATE;
