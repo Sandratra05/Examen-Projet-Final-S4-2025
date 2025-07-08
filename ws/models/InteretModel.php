@@ -8,16 +8,12 @@ class InteretModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    /**
-     * Récupère les intérêts gagnés par mois avec filtre de période
-     * @param string $dateDebut Format YYYY-MM-DD
-     * @param string $dateFin Format YYYY-MM-DD
-     * @return array
-     */
+    
     public static function getInteretsByPeriode($dateDebut = null, $dateFin = null) {
         $db = getDB();
-        
-        $sql = "SELECT 
+
+        try {
+                $sql = "SELECT 
                     YEAR(date) as annee,
                     MONTH(date) as mois,
                     MONTHNAME(date) as nom_mois,
@@ -27,75 +23,84 @@ class InteretModel {
                     SUM(ammortisement) as total_amortissement
                 FROM ef_remboursement 
                 WHERE 1=1";
-        
-        $params = [];
-        
-        if ($dateDebut) {
-            $sql .= " AND date >= :dateDebut";
-            $params['dateDebut'] = $dateDebut;
+            // $sql = "
+            //     SELECT 
+            //         MONTH(date) as mois,
+            //         YEAR(date) as annee,
+            //         CASE MONTH(date)
+            //             WHEN 1 THEN 'Janvier'
+            //             WHEN 2 THEN 'Février'
+            //             WHEN 3 THEN 'Mars'
+            //             WHEN 4 THEN 'Avril'
+            //             WHEN 5 THEN 'Mai'
+            //             WHEN 6 THEN 'Juin'
+            //             WHEN 7 THEN 'Juillet'
+            //             WHEN 8 THEN 'Août'
+            //             WHEN 9 THEN 'Septembre'
+            //             WHEN 10 THEN 'Octobre'
+            //             WHEN 11 THEN 'Novembre'
+            //             WHEN 12 THEN 'Décembre'
+            //         END as nom_mois,
+            //         SUM(interet) as total_interet,
+            //         SUM(montant_payer) as total_montant_paye,
+            //         SUM(ammortisement) as total_amortissement,
+            //         COUNT(*) as nombre_remboursements
+            //     FROM remboursements r
+            //     WHERE 1=1
+            // ";
+            
+            $params = [];
+            
+            if ($dateDebut) {
+                $sql .= " AND date >= :date_debut";
+                $params[':date_debut'] = $dateDebut;
+            }
+            
+            if ($dateFin) {
+                $sql .= " AND date <= :date_fin";
+                $params[':date_fin'] = $dateFin;
+            }
+            
+            $sql .= " GROUP BY YEAR(date), MONTH(date)";
+            $sql .= " ORDER BY annee DESC, mois DESC";
+            
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+        } catch (Exception $e) {
+            error_log("Erreur getInteretsByPeriode: " . $e->getMessage());
+            return false;
         }
-        
-        if ($dateFin) {
-            $sql .= " AND date <= :dateFin";
-            $params['dateFin'] = $dateFin;
-        }
-        
-        $sql .= " GROUP BY YEAR(date), MONTH(date)
-                  ORDER BY annee DESC, mois DESC";
-        
-        $stmt = $db->prepare($sql);
-        $stmt->execute($params);
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    /**
-     * Récupère le total des intérêts pour une période donnée
-     * @param string $dateDebut
-     * @param string $dateFin
-     * @return float
-     */
+
     public static function getTotalInteretsPeriode($dateDebut = null, $dateFin = null) {
         $db = getDB();
-        
-        $sql = "SELECT SUM(interet) as total FROM ef_remboursement WHERE 1=1";
-        $params = [];
-        
-        if ($dateDebut) {
-            $sql .= " AND date >= :dateDebut";
-            $params['dateDebut'] = $dateDebut;
+
+        try {
+            $sql = "SELECT SUM(interet) as total FROM ef_remboursement WHERE 1=1";
+            $params = [];
+            
+            if ($dateDebut) {
+                $sql .= " AND date >= :date_debut";
+                $params[':date_debut'] = $dateDebut;
+            }
+            
+            if ($dateFin) {
+                $sql .= " AND date <= :date_fin";
+                $params[':date_fin'] = $dateFin;
+            }
+            
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
+            
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['total'] ?? 0;
+            
+        } catch (Exception $e) {
+            error_log("Erreur getTotalInteretsPeriode: " . $e->getMessage());
+            return 0;
         }
-        
-        if ($dateFin) {
-            $sql .= " AND date <= :dateFin";
-            $params['dateFin'] = $dateFin;
-        }
-        
-        $stmt = $db->prepare($sql);
-        $stmt->execute($params);
-        
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['total'] ?? 0;
-    }
-    
-    /**
-     * Récupère les détails des remboursements pour un mois donné
-     * @param int $annee
-     * @param int $mois
-     * @return array
-     */
-    public static function getDetailsByMois($annee, $mois) {
-        $db = getDB();
-        
-        $sql = "SELECT r.*, p.* 
-                FROM ef_remboursement r
-                LEFT JOIN ef_pret p ON r.id_pret = p.id_pret
-                WHERE YEAR(r.date) = :annee AND MONTH(r.date) = :mois
-                ORDER BY r.date DESC";
-        
-        $stmt = $db->prepare($sql);
-        $stmt->execute(['annee' => $annee, 'mois' => $mois]);
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
