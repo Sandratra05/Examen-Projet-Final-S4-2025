@@ -173,18 +173,34 @@ public static function comparaisonPrets()
             
             // Calculer les données dérivées
             try {
-                $montant = $pretData['montant'];
+                $montant = floatval($pretData['montant']);
                 $duree = isset($pretData['duree_remboursement']) ? (int)$pretData['duree_remboursement'] : 0;
                 $dateBase = !empty($pretData['date_pret']) ? $pretData['date_pret'] : date('Y-m-d');
-                $tauxAssurance = isset($pretData['taux_assurance']) ? $pretData['taux_assurance'] : 0;
+                $tauxAnnuel = floatval($pretData['taux']);
+                $tauxAssurance = isset($pretData['taux_assurance']) ? floatval($pretData['taux_assurance']) : 0;
                 
-                // Calculer l'annuité
-                $annuite = PretModel::calculerRemboursementMensuel(
-                    $montant,
-                    $pretData['id_type_pret'],
-                    $duree,
-                    $dateBase
-                );
+                // Vérifier les valeurs requises
+                if ($montant <= 0 || $duree <= 0 || $tauxAnnuel < 0) {
+                    throw new Exception("Valeurs invalides pour le calcul");
+                }
+                
+                // Calculer l'annuité manuellement si la méthode échoue
+                try {
+                    $annuite = PretModel::calculerRemboursementMensuel(
+                        $montant,
+                        $pretData['id_type_pret'],
+                        $duree,
+                        $dateBase
+                    );
+                } catch (Exception $e) {
+                    // Calcul manuel de l'annuité
+                    $tauxMensuel = $tauxAnnuel / 100 / 12;
+                    if ($tauxMensuel > 0) {
+                        $annuite = $montant * ($tauxMensuel * pow(1 + $tauxMensuel, $duree)) / (pow(1 + $tauxMensuel, $duree) - 1);
+                    } else {
+                        $annuite = $montant / $duree;
+                    }
+                }
                 
                 // Calculs totaux
                 $totalRembourse = $annuite * $duree;
@@ -194,17 +210,17 @@ public static function comparaisonPrets()
                 // Préparer les données pour l'affichage
                 $pret = [
                     'id' => $id,
-                    'nom_client' => $pretData['nom_client'],
-                    'nom_type_pret' => $pretData['nom_type_pret'],
+                    'nom_client' => $pretData['nom_client'] ?? 'N/A',
+                    'nom_type_pret' => $pretData['nom_type_pret'] ?? 'N/A',
                     'montant' => $montant,
                     'duree' => $duree,
-                    'taux_interet' => $pretData['taux'],
+                    'taux_interet' => $tauxAnnuel,
                     'taux_assurance' => $tauxAssurance,
-                    'delai' => $pretData['delai_remboursement'],
-                    'annuite' => $annuite,
-                    'total_rembourse' => $totalRembourse,
-                    'total_interets' => $totalInterets,
-                    'total_assurance' => $totalAssurance,
+                    'delai' => $pretData['delai_remboursement'] ?? $pretData['delai'] ?? null,
+                    'annuite' => round($annuite, 2),
+                    'total_rembourse' => round($totalRembourse, 2),
+                    'total_interets' => round($totalInterets, 2),
+                    'total_assurance' => round($totalAssurance, 2),
                     'error' => false
                 ];
                 
@@ -214,13 +230,13 @@ public static function comparaisonPrets()
                 // En cas d'erreur de calcul, inclure les données de base
                 $pret = [
                     'id' => $id,
-                    'nom_client' => $pretData['nom_client'],
-                    'nom_type_pret' => $pretData['nom_type_pret'],
-                    'montant' => $pretData['montant'],
-                    'duree' => $pretData['duree_remboursement'],
-                    'taux_interet' => $pretData['taux'],
-                    'taux_assurance' => $pretData['taux_assurance'] ?? 0,
-                    'delai' => $pretData['delai_remboursement'],
+                    'nom_client' => $pretData['nom_client'] ?? 'N/A',
+                    'nom_type_pret' => $pretData['nom_type_pret'] ?? 'N/A',
+                    'montant' => isset($pretData['montant']) ? floatval($pretData['montant']) : 0,
+                    'duree' => isset($pretData['duree_remboursement']) ? (int)$pretData['duree_remboursement'] : 0,
+                    'taux_interet' => isset($pretData['taux']) ? floatval($pretData['taux']) : 0,
+                    'taux_assurance' => isset($pretData['taux_assurance']) ? floatval($pretData['taux_assurance']) : 0,
+                    'delai' => $pretData['delai_remboursement'] ?? $pretData['delai'] ?? null,
                     'annuite' => 0,
                     'total_rembourse' => 0,
                     'total_interets' => 0,
@@ -253,6 +269,34 @@ public static function comparaisonPrets()
         Flight::json(['success' => false, 'message' => 'Erreur lors de la comparaison : ' . $e->getMessage()], 500);
     }
 }
+
+
+// Ajouter cette méthode temporaire dans PretController.php pour debug
+
+public static function debugPret($id)
+{
+    try {
+        $pretData = PretModel::getPretCompletData($id);
+        
+        if (!$pretData) {
+            Flight::json(['success' => false, 'message' => 'Prêt non trouvé'], 404);
+            return;
+        }
+        
+        // Afficher toutes les données brutes
+        Flight::json([
+            'success' => true,
+            'raw_data' => $pretData,
+            'keys' => array_keys($pretData)
+        ]);
+        
+    } catch (Exception $e) {
+        Flight::json(['success' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+
+// Route pour debug (à ajouter temporairement)
+// Flight::route('GET /debug/pret/@id', 'PretController::debugPret');
 
 public static function validerPret($id)
 {

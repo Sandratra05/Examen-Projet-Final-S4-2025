@@ -268,6 +268,8 @@ class PretModel
         return true;
     }
 
+    
+
     public static function getPretCompletData($idPret)
     {
         $sql = "
