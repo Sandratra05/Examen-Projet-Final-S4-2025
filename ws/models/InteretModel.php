@@ -13,16 +13,30 @@ class InteretModel {
         $db = getDB();
 
         try {
-                $sql = "SELECT 
-                    YEAR(date) as annee,
-                    MONTH(date) as mois,
-                    MONTHNAME(date) as nom_mois,
-                    SUM(interet) as total_interet,
-                    COUNT(*) as nombre_remboursements,
-                    SUM(montant_payer) as total_montant_paye,
-                    SUM(ammortisement) as total_amortissement
-                FROM ef_remboursement 
-                WHERE 1=1";
+            $sql = "
+                SELECT 
+                    YEAR(r.date) AS annee,
+                    MONTH(r.date) AS mois,
+                    MONTHNAME(r.date) AS nom_mois,
+                    SUM(r.interet) AS total_interet,
+                    COUNT(*) AS nombre_remboursements,
+                    SUM(r.montant_payer) AS total_montant_paye,
+                    SUM(r.ammortisement) AS total_amortissement
+                FROM ef_remboursement r
+                JOIN ef_pret p ON p.id_pret = r.id_pret
+                JOIN (
+                    SELECT pe1.id_pret, pe1.id_etat_pret
+                    FROM ef_pret_etat pe1
+                    INNER JOIN (
+                        SELECT id_pret, MAX(date_pret_etat) AS max_date
+                        FROM ef_pret_etat
+                        GROUP BY id_pret
+                    ) pe2 ON pe1.id_pret = pe2.id_pret AND pe1.date_pret_etat = pe2.max_date
+                    WHERE pe1.id_etat_pret = 2
+                ) pe ON pe.id_pret = p.id_pret
+                GROUP BY annee, mois
+                ORDER BY annee ASC, mois ASC
+            ";
             // $sql = "
             //     SELECT 
             //         MONTH(date) as mois,
@@ -79,7 +93,13 @@ class InteretModel {
         $db = getDB();
 
         try {
-            $sql = "SELECT SUM(interet) as total FROM ef_remboursement WHERE 1=1";
+            $sql = "
+                SELECT SUM(r.interet) as total
+                FROM ef_remboursement r
+                JOIN ef_pret p ON p.id_pret = r.id_pret
+                JOIN ef_pret_etat pe ON pe.id_pret = p.id_pret
+                WHERE pe.id_etat_pret = 2
+            ";
             $params = [];
             
             if ($dateDebut) {

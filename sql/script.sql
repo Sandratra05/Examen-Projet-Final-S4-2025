@@ -36,6 +36,9 @@ CREATE TABLE ef_taux_pret (
    FOREIGN KEY(id_type_pret) REFERENCES ef_type_pret(id_type_pret)
 );
 
+ALTER TABLE ef_taux_pret
+ADD COLUMN taux_assurance DECIMAL(5,2);
+
 CREATE TABLE ef_mvt_type_pret (
    id_mvt_type_pret INT AUTO_INCREMENT,
    montant_min DECIMAL(15,2),

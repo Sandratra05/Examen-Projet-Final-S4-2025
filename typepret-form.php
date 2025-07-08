@@ -24,10 +24,11 @@ if ($id) {
     <input type="hidden" name="id" id="id" value="<?= $id ? htmlspecialchars($id) : '' ?>">
 
     <div class="form-inputs">
-      <input class="form-input" id="nom" name="nom" placeholder="Nom" type="text" required value="<?= $editData ? htmlspecialchars($editData['nom_type_pret']) : '' ?>" <?= $id ? 'readonly' : '' ?> />
+      <input class="form-input" id="nom" name="nom" placeholder="Nom du type de pret" type="text" required value="<?= $editData ? htmlspecialchars($editData['nom_type_pret']) : '' ?>" <?= $id ? 'readonly' : '' ?> />
       <input class="form-input" id="min" name="min" placeholder="Montant minimum" type="number" step="0.01" required value="<?= $editData ? htmlspecialchars($editData['montant_min']) : '' ?>" />
       <input class="form-input" id="max" name="max" placeholder="Montant maximum" type="number" step="0.01" required value="<?= $editData ? htmlspecialchars($editData['montant_max']) : '' ?>" />
       <input class="form-input" id="taux" name="taux" placeholder="Taux (%)" type="number" step="0.01" required value="<?= $editData ? htmlspecialchars($editData['taux']) : '' ?>" />
+      <input class="form-input" id="taux_assurance" name="taux_assurance" placeholder="Taux assurance (%)" type="number" step="0.01" required value="<?= $editData ? htmlspecialchars($editData['taux_assurance']) : '' ?>" />
 
       <div class="date-input-container">
         <input 
@@ -54,20 +55,9 @@ if ($id) {
   </form>
 </main>
 
+<script src="ajax.js"></script>
 <script>
-const apiBase = "http://localhost/ETU003197/t/Examen-Projet-Finale-S4-2025/ws";
 
-function ajax(method, url, data, callback) {
-  const xhr = new XMLHttpRequest();
-  xhr.open(method, apiBase + url, true);
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      callback(JSON.parse(xhr.responseText));
-    }
-  };
-  xhr.send(data);
-}
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("typepret-form");
@@ -94,8 +84,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const max = document.getElementById("max").value;
     const taux = document.getElementById("taux").value;
     const date = document.getElementById("date").value;
+    const taux_assurance = document.getElementById("taux_assurance").value;
 
-    const data = `id=${encodeURIComponent(id)}&nom=${encodeURIComponent(nom)}&min=${min}&max=${max}&taux=${taux}&date=${encodeURIComponent(date)}`;
+    const data = `id=${encodeURIComponent(id)}&nom=${encodeURIComponent(nom)}&min=${min}&max=${max}&taux=${taux}&taux_assurance=${taux_assurance}&date=${encodeURIComponent(date)}`;
 
     // Envoi AJAX
     if (isEdit) {
@@ -131,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
       type === "success"
         ? "background-color:#d4edda;border:1px solid #c3e6cb;color:#155724;padding:10px;margin-bottom:20px;border-radius:4px;"
         : "background-color:#f8d7da;border:1px solid #f5c6cb;color:#721c24;padding:10px;margin-bottom:20px;border-radius:4px;";
-    div.innerHTML = (type === "success" ? "✅ " : "❌ ") + message;
+    div.innerHTML = (type === "success" ? "Valider " : " Refuser ") + message;
     messageContainer.innerHTML = "";
     messageContainer.appendChild(div);
     messageContainer.style.display = "block";
@@ -142,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const div = document.createElement("div");
     div.style.cssText =
       "background-color:#f8d7da;border:1px solid #f5c6cb;color:#721c24;padding:10px;margin-bottom:20px;border-radius:4px;";
-    let html = "❌ ";
+    let html = "Refuser ";
     if (errors.length === 1) {
       html += errors[0];
     } else {
