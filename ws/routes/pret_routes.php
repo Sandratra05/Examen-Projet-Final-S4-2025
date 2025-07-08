@@ -6,6 +6,7 @@ Flight::route('POST /prets/create', ['PretController', 'createPret']);
 Flight::route('GET /prets/liste', ['PretController', 'listePret']);
 Flight::route('GET /prets/simulation/@id', ['PretController', 'simulerPret']);
 Flight::route('GET /prets/pdf/@id', ['PretController', 'afficherPdfPret']);
+Flight::route('POST /prets/comparaison', 'PretController::comparaisonPrets');
 
 
 
