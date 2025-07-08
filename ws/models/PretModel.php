@@ -195,6 +195,7 @@ class PretModel
         } else {
             $annuite = $montant * $tauxMensuel * pow(1 + $tauxMensuel, $duree)
                 / (pow(1 + $tauxMensuel, $duree) - 1);
+            // $annuite = $montant * (($tauxMensuel)/(1-(pow(1+$tauxMensuel,$duree))));
         }
 
         // 3. Génération des échéances
