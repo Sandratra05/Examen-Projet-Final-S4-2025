@@ -1,14 +1,13 @@
 <?php
 // Données simulées
 $nom = "Rasoa Lalao";
-$matricule = "CLT00123";
-$tel = "032 12 345 67";
+$coordonne = "032 12 345 67";
 $date = date('d/m/Y');
 
 $montant = 5000000;
 $duree = 24;
-$taux_interet = 0.085;
-$taux_assurance = 0.012;
+$taux_interet = 85;
+$taux_assurance = 12;
 $annuite = 229000;
 $total = $annuite * $duree;
 $total_interets = 396000;
@@ -21,94 +20,7 @@ $debut = "01/10/2025";
 <head>
   <meta charset="UTF-8" />
   <title>Simulation_Pret_RasoaLalao</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      background-color: #f9f9fb;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-
-    main.main-content {
-      max-width: 800px;
-      margin: 40px auto;
-      background-color: #fff;
-      padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #0056b3;
-    }
-
-    h3 {
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
-      margin-top: 30px;
-      margin-bottom: 15px;
-      color: #444;
-    }
-
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    ul li {
-      margin-bottom: 8px;
-    }
-
-    p {
-      margin: 8px 0;
-    }
-
-    .signatures {
-      margin-top: 50px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .signatures p {
-      width: 45%;
-    }
-
-    .no-print {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    .no-print button {
-      padding: 12px 25px;
-      font-size: 16px;
-      background-color: #007bff;
-      border: none;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .no-print button:hover {
-      background-color: #0056b3;
-    }
-
-    @media print {
-      .no-print {
-        display: none !important;
-      }
-      body {
-        background: white;
-      }
-      main.main-content {
-        box-shadow: none;
-        border: none;
-      }
-    }
-  </style>
+   <link href="style-pdf.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -118,8 +30,7 @@ $debut = "01/10/2025";
 
     <h3>Informations du client</h3>
     <p><strong>Nom :</strong> <?= htmlspecialchars($nom) ?></p>
-    <p><strong>Matricule :</strong> <?= htmlspecialchars($matricule) ?></p>
-    <p><strong>Téléphone :</strong> <?= htmlspecialchars($tel) ?></p>
+    <p><strong>coordonnees :</strong> <?= htmlspecialchars($coordonne) ?></p>
 
     <h3>Détails du prêt</h3>
     <ul>
