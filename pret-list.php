@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -7,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Prêts</title>
     <style>
- 
-
         .btn-simuler {
             background-color: #2ecc71;
             color: white;
@@ -65,10 +62,8 @@
 
 
 
- 
 
-   
-=======
+
 <?php include 'header.php'; ?>
 <style>
     .action {
@@ -109,48 +104,47 @@
 </style>
 
 <body>
-<main class="form-main">
-    <section>
-        <h2 class="form-title">Liste des Demandes de Prêt</h2>
+    <main class="form-main">
+        <section>
+            <h2 class="form-title">Liste des Demandes de Prêt</h2>
 
-        <div class="filter-container">
-            <label for="date-debut">Date début :</label>
-            <input type="datetime-local" id="date-debut" value="">
+            <div class="filter-container">
+                <label for="date-debut">Date début :</label>
+                <input type="datetime-local" id="date-debut" value="">
 
-            <label for="date-fin">Date fin :</label>
-            <input type="datetime-local" id="date-fin" value="">
+                <label for="date-fin">Date fin :</label>
+                <input type="datetime-local" id="date-fin" value="">
 
-            <label for="etat-filtre">État :</label>
-            <select id="etat-filtre">
-                <option value="">-- Tous --</option>
-                <option value="En attente">En attente</option>
-                <option value="Validé">Validé</option>
-                <option value="Refusé">Refusé</option>
-                <!-- Ajoute d'autres états si nécessaire -->
-            </select>
-        </div>
+                <label for="etat-filtre">État :</label>
+                <select id="etat-filtre">
+                    <option value="">-- Tous --</option>
+                    <option value="En attente">En attente</option>
+                    <option value="Validé">Validé</option>
+                    <option value="Refusé">Refusé</option>
+                    <!-- Ajoute d'autres états si nécessaire -->
+                </select>
+            </div>
 
-        <div class="table-responsive">
-            <table class="history-table" id="listePret">
-                <thead>
-                <tr>
-                    <th>ID Prêt</th>
-                    <th>État</th>
-                    <th>Numéro de Compte</th>
-                    <th>Client</th>
-                    <th>Montant</th>
-                    <th>Date de prêt</th>
-                    <th>Durée remboursement (mois)</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </section>
-</main>
+            <div class="table-responsive">
+                <table class="history-table" id="listePret">
+                    <thead>
+                        <tr>
+                            <th>ID Prêt</th>
+                            <th>État</th>
+                            <th>Numéro de Compte</th>
+                            <th>Client</th>
+                            <th>Montant</th>
+                            <th>Date de prêt</th>
+                            <th>Durée remboursement (mois)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 
-<script>
     <script>
         const apiBase = "http://localhost/ETU003197/t/Examen-Projet-Finale-S4-2025/ws";
 
@@ -164,7 +158,9 @@
                     try {
                         response = JSON.parse(xhr.responseText);
                     } catch (e) {
-                        response = { message: "Réponse invalide du serveur." };
+                        response = {
+                            message: "Réponse invalide du serveur."
+                        };
                     }
                     callback(response, xhr.status);
                 }
@@ -215,18 +211,18 @@
 
         function chargerPret() {
             ajax("GET", "/prets/liste", null, (data) => {
-               toutesLesPrets = data;
+                toutesLesPrets = data;
                 filtrerEtAfficher();
                 const tbody = document.querySelector("#listePret tbody");
                 tbody.innerHTML = "";
-                
+
                 data.forEach(e => {
                     const tr = document.createElement("tr");
                     const etatClass = getEtatClass(e.etat_pret);
                     const estSimule = e.etat_pret.toLowerCase().includes('clôturé') || e.etat_pret.toLowerCase().includes('cloture');
-                    
+
                     let actionsHtml = '';
-                    
+
                     if (estSimule) {
                         // Si déjà simulé, afficher seulement le bouton PDF
                         actionsHtml = `
@@ -245,7 +241,7 @@
                             </button>
                         `;
                     }
-                    
+
                     tr.innerHTML = `
                         <td>${e.id_pret}</td>
                         <td><span class="${etatClass}">${e.etat_pret}</span></td>
@@ -260,31 +256,33 @@
                     `;
                     tbody.appendChild(tr);
                 });
+            });
+        }
 
-    function filtrerEtAfficher() {
-        const dateDebutStr = document.getElementById("date-debut").value;
-        const dateFinStr = document.getElementById("date-fin").value;
-        const etatChoisi = document.getElementById("etat-filtre").value;
+        function filtrerEtAfficher() {
+            const dateDebutStr = document.getElementById("date-debut").value;
+            const dateFinStr = document.getElementById("date-fin").value;
+            const etatChoisi = document.getElementById("etat-filtre").value;
 
-        const dateDebut = dateDebutStr ? new Date(dateDebutStr) : null;
-        const dateFin = dateFinStr ? new Date(dateFinStr) : null;
+            const dateDebut = dateDebutStr ? new Date(dateDebutStr) : null;
+            const dateFin = dateFinStr ? new Date(dateFinStr) : null;
 
-        const tbody = document.querySelector("#listePret tbody");
-        tbody.innerHTML = "";
+            const tbody = document.querySelector("#listePret tbody");
+            tbody.innerHTML = "";
 
-        toutesLesPrets.forEach(e => {
-            const datePret = new Date(e.date_pret);
+            toutesLesPrets.forEach(e => {
+                const datePret = new Date(e.date_pret);
 
-            const correspondDate =
-                (!dateDebut || datePret >= dateDebut) &&
-                (!dateFin || datePret <= dateFin);
+                const correspondDate =
+                    (!dateDebut || datePret >= dateDebut) &&
+                    (!dateFin || datePret <= dateFin);
 
-            const correspondEtat =
-                etatChoisi === "" || e.etat_pret === etatChoisi;
+                const correspondEtat =
+                    etatChoisi === "" || e.etat_pret === etatChoisi;
 
-            if (correspondDate && correspondEtat) {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
+                if (correspondDate && correspondEtat) {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
                     <td>${e.id_pret}</td>
                     <td>${e.etat_pret}</td>
                     <td style="text-align:right;">${e.numero_compte}</td>
@@ -296,16 +294,16 @@
                         <button class="btn btn-simuler action" onclick="simulerPret(${e.id_pret})">Simuler</button>
                         <button class="btn btn-refuser action" onclick="refuserPret(${e.id_pret})">Refuser</button>
                     </td>`;
-                tbody.appendChild(tr);
-            }
-        });
-    }
+                    tbody.appendChild(tr);
+                }
+            });
+        }
 
-    document.getElementById("date-debut").addEventListener("input", filtrerEtAfficher);
-    document.getElementById("date-fin").addEventListener("input", filtrerEtAfficher);
-    document.getElementById("etat-filtre").addEventListener("change", filtrerEtAfficher);
+        document.getElementById("date-debut").addEventListener("input", filtrerEtAfficher);
+        document.getElementById("date-fin").addEventListener("input", filtrerEtAfficher);
+        document.getElementById("etat-filtre").addEventListener("change", filtrerEtAfficher);
 
-    chargerPret();
-</script>
+        chargerPret();
+    </script>
 
-<?php include 'footer.php'; ?>
+    <?php include 'footer.php'; ?>
