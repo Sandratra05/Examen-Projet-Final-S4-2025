@@ -1,53 +1,59 @@
-<?php
-// Données simulées
-$nom = "Rasoa Lalao";
-$coordonne = "032 12 345 67";
-$date = date('d/m/Y');
-
-$montant = 5000000;
-$duree = 24;
-$taux_interet = 85;
-$taux_assurance = 12;
-$annuite = 229000;
-$total = $annuite * $duree;
-$total_interets = 396000;
-$total_assurance = 100000;
-$debut = "01/10/2025";
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Simulation_Pret_RasoaLalao</title>
-   <link href="style-pdf.css" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <title>Résumé de Prêt</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f8f9fa;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      max-width: 700px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #34495e;
+    }
+    .ligne {
+      margin: 10px 0;
+    }
+    .ligne span {
+      font-weight: bold;
+      display: inline-block;
+      width: 180px;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h2>Détails du Prêt</h2>
+    <div class="ligne"><span>Nom du client :</span> <?= htmlspecialchars($nom) ?></div>
+    <div class="ligne"><span>Coordonnées :</span> <?= htmlspecialchars($coordonne) ?></div>
+    <div class="ligne"><span>Date de génération :</span> <?= $date ?></div>
 
-  <main class="main-content">
-    <h2>Simulation de Prêt</h2>
-    <p><strong>Date :</strong> <?= $date ?></p>
+    <hr>
 
-    <h3>Informations du client</h3>
-    <p><strong>Nom :</strong> <?= htmlspecialchars($nom) ?></p>
-    <p><strong>coordonnees :</strong> <?= htmlspecialchars($coordonne) ?></p>
+    <div class="ligne"><span>Montant du prêt :</span> <?= number_format($montant, 2, ',', ' ') ?> Ar</div>
+    <div class="ligne"><span>Durée :</span> <?= $duree ?> mois</div>
+    <div class="ligne"><span>Taux d'intérêt :</span> <?= $taux_interet ?>%</div>
+    <div class="ligne"><span>Taux d'assurance :</span> <?= $taux_assurance ?>%</div>
+    <div class="ligne"><span>Date de début :</span> <?= $debut ?></div>
 
-    <h3>Détails du prêt</h3>
-    <ul>
-      <li><strong>Montant :</strong> <?= number_format($montant, 0, ',', ' ') ?> Ar</li>
-      <li><strong>Durée :</strong> <?= $duree ?> mois</li>
-      <li><strong>Taux d’intérêt :</strong> <?= $taux_interet ?> %</li>
-      <li><strong>Taux assurance :</strong> <?= $taux_assurance?> %</li>
-      <li><strong>Mensualité :</strong> <?= number_format($annuite, 0, ',', ' ') ?> Ar</li>
-      <li><strong>Début remboursement :</strong> <?= $debut ?></li>
-      <li><strong>Total remboursé :</strong> <?= number_format($total, 0, ',', ' ') ?> Ar</li>
-    </ul>
+    <hr>
 
-    <h3>Résumé</h3>
-    <p><strong>Total intérêts :</strong> <?= number_format($total_interets, 0, ',', ' ') ?> Ar</p>
-    <p><strong>Total assurance :</strong> <?= number_format($total_assurance, 0, ',', ' ') ?> Ar</p>
-    <p><strong>Coût total du prêt :</strong> <?= number_format($total - $montant, 0, ',', ' ') ?> Ar</p>
-
+    <div class="ligne"><span>Annuité mensuelle :</span> <?= number_format($annuite, 2, ',', ' ') ?> Ar</div>
+    <div class="ligne"><span>Total à rembourser :</span> <?= number_format($total, 2, ',', ' ') ?> Ar</div>
+    <div class="ligne"><span>Total des intérêts :</span> <?= number_format($total_interets, 2, ',', ' ') ?> Ar</div>
+    <div class="ligne"><span>Total assurance :</span> <?= number_format($total_assurance, 2, ',', ' ') ?> Ar</div>
+  
+    
     <div class="signatures">
       <p>Signature agent EF : ____________________</p>
       <p>Signature client : ______________________</p>
@@ -56,7 +62,10 @@ $debut = "01/10/2025";
     <div class="no-print">
       <button onclick="window.print()"> Imprimer PDF</button>
     </div>
-  </main>
+  
+  
+  </div>
 
+  
 </body>
 </html>
