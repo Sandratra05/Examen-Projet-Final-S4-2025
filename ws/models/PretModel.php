@@ -166,7 +166,7 @@ class PretModel
     {
         // 1. Récupérer les données complètes du prêt avec son taux
         $sqlPret = "SELECT p.montant, p.duree_remboursement, p.date_pret,
-                       t.taux, tp.nom_type_pret
+                       t.taux, tp.nom_type_pret, t.taux_assurance
                 FROM ef_pret p
                 JOIN ef_type_pret tp ON p.id_type_pret = tp.id_type_pret
                 JOIN ef_taux_pret t ON p.id_type_pret = t.id_type_pret
@@ -188,6 +188,8 @@ class PretModel
         $duree = (int)$pretData['duree_remboursement'];
         $tauxAnnuel = (float)$pretData['taux'];
         $tauxMensuel = $tauxAnnuel / 100 / 12;
+
+        $montantAssurrance = ((float)$pretData['taux_assurance']/100/12)* $montant;
 
         // Cas particulier pour les prêts sans intérêts
         if ($tauxMensuel == 0) {
@@ -216,7 +218,7 @@ class PretModel
             $success = RemboursementModel::insererRemboursement(
                 $idPret,
                 $dateRemboursement,
-                round($annuite, 2),
+                round($annuite + $montantAssurrance, 2),
                 round($amortissement, 2),
                 round($interet, 2)
             );

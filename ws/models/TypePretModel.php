@@ -115,7 +115,7 @@ class TypePretModel {
      */
     public static function getAll() {
         $db = getDB();
-        $stmt = $db->query("SELECT * FROM ef_type_pret ORDER BY nom_type_pret");
+        $stmt = $db->query("SELECT * FROM ef_type_pret ORDER BY id_type_pret");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
