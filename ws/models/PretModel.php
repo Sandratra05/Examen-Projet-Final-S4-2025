@@ -275,6 +275,7 @@ class PretModel
                 p.id_pret,
                 p.montant,
                 p.duree_remboursement,
+                p.delai_remboursement,
                 p.date_pret,
                 p.id_type_pret,
                 c.id_compte,

@@ -61,58 +61,72 @@ class PretController
     }
 
     // Nouvelle méthode pour afficher le PDF d'un prêt
-    public static function afficherPdfPret($id)
-    {
-        try {
-            // Récupérer toutes les données du prêt
-            $pretData = PretModel::getPretCompletData($id);
-            
-            if (!$pretData) {
-                Flight::json(['success' => false, 'message' => 'Prêt non trouvé'], 404);
-                return;
-            }
+public static function afficherPdfPret($id)
+{
+    try {
+        // Récupérer toutes les données du prêt
+        $pretData = PretModel::getPretCompletData($id);
+        
+        if (!$pretData) {
+            Flight::json(['success' => false, 'message' => 'Prêt non trouvé'], 404);
+            return;
+        }
 
-            // Calculer les données pour le PDF
-            $montant = $pretData['montant'];
-            $duree = $pretData['duree_remboursement'];
-            $tauxAnnuel = $pretData['taux'];
-            $tauxAssurance = $pretData['taux_assurance'] ?? 0;
-            
-        $datePret = date('Y-m-d', strtotime($pretData['date_pret']));
+        // Sécurisation des données
+        $montant = $pretData['montant'];
+        $duree = isset($pretData['duree_remboursement']) ? (int)$pretData['duree_remboursement'] : 0;
+        
+        
+        // Sécuriser la date de prêt
+        $dateBase = !empty($pretData['delai_remboursement']) ? $pretData['delai_remboursement'] : date('Y-m-d');
+        $delai = date('Y-m-d', strtotime($dateBase));
+        
+        $tauxAnnuel = $pretData['taux'];
+        $tauxAssurance = isset($pretData['taux_assurance']) ? $pretData['taux_assurance'] : 0;
 
+        // Sécuriser la date de prêt
+        $dateBase = !empty($pretData['date_pret']) ? $pretData['date_pret'] : date('Y-m-d');
+        $datePret = date('Y-m-d', strtotime($dateBase));
+
+        // Calcul annuité
         $annuite = PretModel::calculerRemboursementMensuel(
             $montant,
             $pretData['id_type_pret'],
-    $duree,
-    $datePret // ✅ Format corrigé ici
-);
+            $duree,
+            $datePret
+        );
 
-            
-            $totalRembourse = $annuite * $duree;
-            $totalInterets = $totalRembourse - $montant;
-            $totalAssurance = ($montant * $tauxAssurance / 100) * $duree / 12;
-            
-            // Préparer les données pour le template
-            $data = [
-                'nom' => $pretData['nom_client'],
-                'coordonne' => $pretData['coordonnees'],
-                'date' => date('d/m/Y'),
-                'montant' => $montant,
-                'duree' => $duree,
-                'taux_interet' => $tauxAnnuel,
-                'taux_assurance' => $tauxAssurance,
-                'annuite' => $annuite,
-                'total' => $totalRembourse,
-                'total_interets' => $totalInterets,
-                'total_assurance' => $totalAssurance,
-                'debut' => date('Y/m/d', strtotime($pretData['date_pret'] . ' +1 month'))
-            ];
-            
-            // Rendre le template HTML
-            Flight::render('pdf-html', $data);
-            
-        } catch (Exception $e) {
-            Flight::json(['success' => false, 'message' => $e->getMessage()], 500);
-        }
+        // Calculs totaux
+        $totalRembourse = $annuite * $duree;
+        $totalInterets = $totalRembourse - $montant;
+        $totalAssurance = ($montant * $tauxAssurance / 100) * $duree / 12;
+
+        // Calcul date de début réelle
+        $moisAjout = ($delai > 0) ? $delai : 1;
+        $dateDebut = date('Y/m/d', strtotime("$dateBase +$moisAjout month"));
+
+        // Préparer les données pour le template
+        $data = [
+            'nom' => $pretData['nom_client'],
+            'coordonne' => $pretData['coordonnees'],
+            'date' => date('d/m/Y'),
+            'montant' => $montant,
+            'duree' => $duree,
+            'taux_interet' => $tauxAnnuel,
+            'taux_assurance' => $tauxAssurance,
+            'annuite' => $annuite,
+            'total' => $totalRembourse,
+            'total_interets' => $totalInterets,
+            'total_assurance' => $totalAssurance,
+            'debut' => $delai
+        ];
+
+        // Rendre le template HTML
+        Flight::render('pdf-html', $data);
+
+    } catch (Exception $e) {
+        Flight::json(['success' => false, 'message' => $e->getMessage()], 500);
     }
+}
+
 }
