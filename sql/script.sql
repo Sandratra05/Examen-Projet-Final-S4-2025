@@ -139,3 +139,7 @@ CREATE TABLE ef_remboursement (
 
 ALTER TABLE ef_taux_pret
 ADD COLUMN taux_assurance DECIMAL(5,2);
+
+
+ALTER TABLE ef_pret
+ADD COLUMN delai_remboursement DATE;
