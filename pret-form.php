@@ -42,23 +42,25 @@
       <div class="form-inputs">
 
 
-        <input class="form-input" type="number" id="numero_compte" name="numero_compte" placeholder="Numéro de compte" required />
+        <input class="form-input" type="number" id="numero_compte" name="numero_compte" placeholder="Numéro de compte *" required />
 
 
 
         <select id="type_pret" class="form-input" name="type_pret" required>
-          <option value="">Type de prêt</option>
+          <option value="">Type de prêt *</option>
         </select>
 
 
 
-        <input type="number" class="form-input" id="duree" name="duree" min="1" required placeholder="Durée de remboursement (en mois)" />
+        <input type="number" class="form-input" id="duree" name="duree" min="1" required placeholder="Durée de remboursement (en mois) *" required/>
 
 
 
-        <input type="number" class="form-input" id="montant" name="montant" step="0.01" placeholder="Montant du prêt" required />
+        <input type="number" class="form-input" id="montant" name="montant" step="0.01" placeholder="Montant du prêt *" required />
+
+        <input type="number" class="form-input" name="delai" id="delai" placeholder="Délai de remboursement (en mois)"> 
       </div>
-
+      <p style="font-size: 12px; margin-top:10px; color:#e72e4b;">(* champ obligatoire)</p>
       <div class="form-actions">
         <button class="form-submit-btn" type="submit">Soumettre la demande</button>
       </div>
@@ -66,29 +68,9 @@
 
 
   </main>
-
+  
+  <script src="ajax.js"></script>
   <script>
-    const apiBase = "http://localhost/ETU003197/t/Examen-Projet-Finale-S4-2025/ws";
-
-    function ajax(method, url, data, callback) {
-      const xhr = new XMLHttpRequest();
-      xhr.open(method, apiBase + url, true);
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          let response;
-          try {
-            response = JSON.parse(xhr.responseText);
-          } catch (e) {
-            response = {
-              message: "Réponse invalide du serveur."
-            };
-          }
-          callback(response, xhr.status);
-        }
-      };
-      xhr.send(data);
-    }
 
     function chargerTypePret() {
       ajax("GET", "/list-type-pret", null, (data) => {
@@ -120,8 +102,11 @@
       data.append('idTypePret', document.getElementById("type_pret").value);
       data.append('montant', document.getElementById("montant").value);
       data.append('dureeRemboursement', document.getElementById("duree").value);
+      data.append('delai', document.getElementById("delai").value);
 
       ajax("POST", "/prets/create", data, (response) => {
+        console.log("data = " + data + "-------");
+        
         if (response.success) {
           afficherMessage(response.message, true);
           document.getElementById("form-pret").reset();
